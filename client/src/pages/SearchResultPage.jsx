@@ -2,6 +2,7 @@ import { Link, useParams, Navigate } from 'react-router-dom'
 import Nav from '../Nav'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import SearchBar from '../SearchBar'
 
 export default function SearchResultPage() {
   const { searchKeyword } = useParams()
@@ -18,10 +19,9 @@ export default function SearchResultPage() {
       .get(`https://www.googleapis.com/books/v1/volumes?q=${searchKeyword}`)
       .then((response) => {
         setSearchResults(response.data)
-        console.log(searchResults)
       })
     // }
-  }, [])
+  }, [searchKeyword])
 
   const displayresults = searchResults?.items?.map((book) => (
     <div key={book.id}>
@@ -42,6 +42,7 @@ export default function SearchResultPage() {
   return (
     <>
       <Nav />
+      <SearchBar />
       {/* {errMessage} */}
       <div>search results for {searchKeyword}</div>
       <div>{displayresults}</div>
