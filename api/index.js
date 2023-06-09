@@ -12,8 +12,8 @@ app.use(
 )
 
 app.post('/bookSearch', (req, res) => {
-  const { searchKeyWord } = req.body
-  res.json({ searchKeyWord })
+  const { searchKeyword } = req.body
+  res.json({ searchKeyword })
 })
 
 app.listen(4000)
