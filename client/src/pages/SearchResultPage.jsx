@@ -10,24 +10,25 @@ export default function SearchResultPage() {
   const [searchResults, setSearchResults] = useState([])
   const [loading, setLoading] = useState(false)
 
-  function searchByName(searchKeyword) {
+  function searchByName(searchWord) {
     axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=${searchKeyword}`)
+      .get(`https://www.googleapis.com/books/v1/volumes?q=${searchWord}`)
       .then((response) => {
         setSearchResults(response.data.items)
+        console.log(response.data.items)
+        console.log(searchKeyword)
       })
       .then(() => {
         setLoading(true)
       })
   }
 
-  function searchByISBN(searchKeyword) {
+  function searchByISBN(searchWord) {
     axios
-      .get(
-        `https://www.googleapis.com/books/v1/volumes?q=isbn:${searchKeyword}`
-      )
+      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}`)
       .then((response) => {
         setSearchResults(response.data.items)
+        console.log(response.data.items)
       })
       .then(() => {
         setLoading(true)
@@ -55,9 +56,13 @@ export default function SearchResultPage() {
       <div>
         {searchResults.length > 0 &&
           searchResults.map((book) => (
-            <div key={book.id}>
+            <div key={book.etag}>
               <Link
-                to={`/book/${book.volumeInfo.industryIdentifiers[0].identifier}`}
+                to={`/book/${
+                  book.volumeInfo.industryIdentifiers
+                    ? book.volumeInfo.industryIdentifiers[0].identifier
+                    : book.id + '#' + book.volumeInfo?.authors[0]
+                }`}
               >
                 <img
                   src={
