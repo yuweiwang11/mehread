@@ -12,20 +12,40 @@ export default function SearchResultPage() {
   // const [errMessage, setErrMessage] = useState('')
   // function getSearchResults() {}
 
+  function searchByName(searchKeyword) {
+    axios
+      .get(`https://www.googleapis.com/books/v1/volumes?q=${searchKeyword}`)
+      .then((response) => {
+        setSearchResults(response.data.items)
+      })
+      .then(() => {
+        setLoading(true)
+      })
+  }
+
+  function searchByISBN(searchKeyword) {
+    axios
+      .get(
+        `https://www.googleapis.com/books/v1/volumes?q=isbn:${searchKeyword}`
+      )
+      .then((response) => {
+        setSearchResults(response.data.items)
+      })
+      .then(() => {
+        setLoading(true)
+      })
+  }
+
   useEffect(() => {
     // if (!searchKeyword) {
     //   setErrMessage('please enter search word')
     //   return <Navigate to={'/'} />
     // } else {
-    axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=${searchKeyword}`)
-      .then((response) => {
-        setSearchResults(response.data.items)
-        console.log(response.data.items)
-      })
-      .then(() => {
-        setLoading(true)
-      })
+    if (isNaN(searchKeyword)) {
+      searchByName(searchKeyword)
+    } else {
+      searchByISBN(searchKeyword)
+    }
 
     // }
   }, [searchKeyword])
@@ -43,7 +63,7 @@ export default function SearchResultPage() {
 
       <div>
         {/* {searchResults[0]} */}
-        {searchResults.length === 10 &&
+        {searchResults.length > 0 &&
           searchResults.map((book) => (
             <div key={book.id}>
               <Link to={`/book/${book.id}`}>
