@@ -17,7 +17,7 @@ export default function SearchBar() {
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
           type="text"
-          placeholder="Please enter book name or author name"
+          placeholder="Title/Author/ISBN"
           required
         />
 
