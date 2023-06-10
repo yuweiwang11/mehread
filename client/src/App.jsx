@@ -14,7 +14,7 @@ function App() {
           {/* <Route path="/" element={<Layout />}> */}
           <Route path="/" element={<HomePage />} />
           <Route path="/books/:searchKeyword" element={<SearchResultPage />} />
-          <Route path="/book/:bookId" element={<BookDetail />} />
+          <Route path="/book/:bookISBN" element={<BookDetail />} />
 
           {/* <Route path="/account/bookings/:id" element={<BookingPage />} /> */}
         </Route>
