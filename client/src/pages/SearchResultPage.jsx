@@ -61,7 +61,7 @@ export default function SearchResultPage() {
                 to={`/book/${
                   book.volumeInfo.industryIdentifiers
                     ? book.volumeInfo.industryIdentifiers[0].identifier
-                    : book.id + '#' + book.volumeInfo?.authors[0]
+                    : book.volumeInfo.title + '#' + book.volumeInfo.authors[0]
                 }`}
               >
                 <img

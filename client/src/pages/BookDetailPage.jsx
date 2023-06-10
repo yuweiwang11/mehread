@@ -6,6 +6,8 @@ export default function BookDetailPage() {
   const { bookISBN } = useParams()
   const [bookInfo, setBookInfo] = useState({})
 
+  // `https://www.googleapis.com/books/v1/volumes?q=${book_title}+inauthor:${author_name}`
+
   useEffect(() => {
     axios
       .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${bookISBN}`)

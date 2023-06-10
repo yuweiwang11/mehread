@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import axios from 'axios'
 import SearchResultPage from './pages/SearchResultPage'
-import BookDetailPage from './pages/BookDetail'
+import BookDetailPage from './pages/BookDetailPage'
 
 axios.defaults.baseURL = 'http://localhost:4000'
 
