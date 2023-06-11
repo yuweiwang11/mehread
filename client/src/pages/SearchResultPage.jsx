@@ -95,6 +95,7 @@ export default function SearchResultPage() {
         postsPerPage={postsPerPage}
         totalPosts={searchResults.length}
         paginate={paginate}
+        currentPage={currentPage}
       />
     </>
   )
