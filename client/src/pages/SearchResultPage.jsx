@@ -4,19 +4,20 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import SearchBar from '../SearchBar'
 import Spinner from '../Spinner'
+import Pagination from '../Pagination'
 
 export default function SearchResultPage() {
   const { searchKeyword } = useParams()
   const [searchResults, setSearchResults] = useState([])
   const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage] = useState(8)
 
   function searchByName(searchWord) {
     axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=${searchWord}`)
+      .get(`https://www.googleapis.com/books/v1/volumes?q=${searchWord}&maxResults=40`)
       .then((response) => {
         setSearchResults(response.data.items)
-        console.log(response.data.items)
-        console.log(searchKeyword)
       })
       .then(() => {
         setLoading(true)
@@ -25,10 +26,9 @@ export default function SearchResultPage() {
 
   function searchByISBN(searchWord) {
     axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}`)
+      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}&maxResults=40`)
       .then((response) => {
         setSearchResults(response.data.items)
-        console.log(response.data.items)
       })
       .then(() => {
         setLoading(true)
@@ -47,6 +47,15 @@ export default function SearchResultPage() {
     return <Spinner />
   }
 
+  // pagination
+  const indexOfLastPost = currentPage * postsPerPage
+  const indexOfFirstPost = indexOfLastPost - postsPerPage
+  const currentPosts = searchResults.slice(indexOfFirstPost, indexOfLastPost)
+  // paginate function render content clicing on page number
+  function paginate(pageNumber) {
+    setCurrentPage(pageNumber)
+  }
+
   return (
     <>
       <Nav />
@@ -54,9 +63,9 @@ export default function SearchResultPage() {
       <div>search results for {searchKeyword}</div>
 
       <div>
-        {searchResults.length > 0 &&
-          searchResults.map((book) => (
-            <div key={book.etag}>
+        {currentPosts.length > 0 &&
+          currentPosts.map((book) => (
+            <div key={book.id}>
               <Link
                 to={`/book/${
                   book.volumeInfo.industryIdentifiers
@@ -75,13 +84,18 @@ export default function SearchResultPage() {
                 <h2>{book.volumeInfo.title}</h2>
                 <h3>
                   {book.volumeInfo.authors?.map((author) => (
-                    <div key={author[0]}>{author}</div>
+                    <div key={book.id + author}>{author}</div>
                   ))}
                 </h3>
               </Link>
             </div>
           ))}
       </div>
+      <Pagination
+        postsPerPage={postsPerPage}
+        totalPosts={searchResults.length}
+        paginate={paginate}
+      />
     </>
   )
 }
