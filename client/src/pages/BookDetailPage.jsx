@@ -3,26 +3,42 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
+import SearchBar from '../SearchBar'
 
 export default function BookDetailPage() {
-  const { bookISBN } = useParams()
+  const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
   const [loading, setLoading] = useState(false)
 
-  // `https://www.googleapis.com/books/v1/volumes?q=${book_title}+inauthor:${author_name}`
-
-  useEffect(() => {
+  function getBookById(bookId) {
     axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${bookISBN}`)
-
+      .get(`https://www.googleapis.com/books/v1/volumes/${bookId}`)
       .then((response) => {
-        setBookInfo(response.data.items[0].volumeInfo)
-        console.log(response)
+        setBookInfo(response.data.volumeInfo)
       })
       .then(() => {
         setLoading(true)
       })
-  }, [bookISBN])
+  }
+
+  function getBookByISBN(ISBN) {
+    axios
+      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN}`)
+      .then((response) => {
+        setBookInfo(response.data.items[0].volumeInfo)
+      })
+      .then(() => {
+        setLoading(true)
+      })
+  }
+
+  useEffect(() => {
+    if (!isNaN(bookIdentifier)) {
+      getBookByISBN(bookIdentifier)
+    } else {
+      getBookById(bookIdentifier)
+    }
+  }, [bookIdentifier])
 
   if (!loading) {
     return <Spinner />
@@ -31,6 +47,7 @@ export default function BookDetailPage() {
   return (
     <>
       <Nav />
+      <SearchBar />
 
       <div>
         <h1 className="text-2xl">{bookInfo.title}</h1>
@@ -49,7 +66,12 @@ export default function BookDetailPage() {
           ))}
         </h3>
 
-        <h3>ISBN: {bookISBN}</h3>
+        <h3>
+          ISBN:{' '}
+          {bookInfo.industryIdentifiers
+            ? bookInfo.industryIdentifiers[1].identifier
+            : 'Not available'}
+        </h3>
         <h3>Language: {bookInfo.language}</h3>
         <h3>Pages count: {bookInfo.pageCount}</h3>
         <h3>

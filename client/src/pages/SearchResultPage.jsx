@@ -15,14 +15,6 @@ export default function SearchResultPage() {
   const [postsPerPage] = useState(8)
   const resultsMessage = `Search results for "${searchKeyword}"`
 
-  function linkToBookDetail(book) {
-    return `/book/${
-      book.volumeInfo.industryIdentifiers
-        ? book.volumeInfo.industryIdentifiers[0].identifier
-        : book.volumeInfo.title + '#' + book.volumeInfo.authors[0]
-    }`
-  }
-
   function searchByName(searchWord) {
     axios
       .get(`https://www.googleapis.com/books/v1/volumes?q=${searchWord}&maxResults=40`)
@@ -35,14 +27,6 @@ export default function SearchResultPage() {
   }
 
   function searchByISBN(searchWord) {
-    // axios
-    //   .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}`)
-    //   .then((response) => {
-    //     setSearchResults(response.data.items)
-    //   })
-    //   .then(() => {
-    //     setLoading(true)
-    //   })
     navigate(`/book/${searchWord}`)
   }
 
@@ -79,7 +63,7 @@ export default function SearchResultPage() {
             <div key={book.id}>
               <div className="flex gap-4 p-4 mb-4 border border-gray-300 rounded-xl">
                 <div className="flex w-32">
-                  <Link to={linkToBookDetail(book)}>
+                  <Link to={`/book/${book.id}`}>
                     <img
                       src={
                         book.volumeInfo.imageLinks === undefined
@@ -92,7 +76,7 @@ export default function SearchResultPage() {
                 </div>
 
                 <div className="">
-                  <Link to={linkToBookDetail(book)}>
+                  <Link to={`/book/${book.id}`}>
                     <h2 className="text-xl font-bold hover:text-gray-500 ">
                       {book.volumeInfo.title}
                     </h2>
