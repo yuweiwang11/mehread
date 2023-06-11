@@ -12,7 +12,7 @@ export default function SearchResultPage() {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(8)
-  const resultsMessage = `Your search results for "${searchKeyword}"`
+  const resultsMessage = `Search results for "${searchKeyword}"`
 
   function linkToBookDetail(book) {
     return `/book/${
@@ -35,7 +35,7 @@ export default function SearchResultPage() {
 
   function searchByISBN(searchWord) {
     axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}&maxResults=40`)
+      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}`)
       .then((response) => {
         setSearchResults(response.data.items)
       })
@@ -91,7 +91,9 @@ export default function SearchResultPage() {
 
                 <div className="">
                   <Link to={linkToBookDetail(book)}>
-                    <h2 className="text-xl font-bold hover:sky-700">{book.volumeInfo.title}</h2>
+                    <h2 className="text-xl font-bold hover:text-gray-500 ">
+                      {book.volumeInfo.title}
+                    </h2>
                   </Link>
 
                   <div className="flex mt-1">
