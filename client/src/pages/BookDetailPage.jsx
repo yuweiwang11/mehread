@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Nav from '../Nav'
 import Spinner from '../Spinner'
 
 export default function BookDetailPage() {
@@ -16,6 +17,7 @@ export default function BookDetailPage() {
 
       .then((response) => {
         setBookInfo(response.data.items[0].volumeInfo)
+        console.log(response)
       })
       .then(() => {
         setLoading(true)
@@ -27,34 +29,37 @@ export default function BookDetailPage() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl">{bookInfo.title}</h1>
-      <h1 className="text-xl">{bookInfo.subtitle}</h1>
+    <>
+      <Nav />
 
-      <h3>
-        {bookInfo.authors?.map((author, index) => (
-          <div key={index}>{author}</div>
-        ))}
-      </h3>
-      <span className="flex">
-        <h3>Category: </h3>
-        <h3>
+      <div>
+        <h1 className="text-2xl">{bookInfo.title}</h1>
+        <h1 className="text-xl">{bookInfo.subtitle}</h1>
+
+        <h3 className="flex">
+          Author(s):&nbsp;
+          {bookInfo.authors?.map((author, index) => (
+            <div key={index}>{author}</div>
+          ))}
+        </h3>
+        <h3 className="flex">
+          Category:{' '}
           {bookInfo.categories?.map((category, index) => (
             <div key={index}>&nbsp;{category}</div>
           ))}
         </h3>
-      </span>
 
-      <h3>ISBN: {bookISBN}</h3>
-      <h3>Language: {bookInfo.language}</h3>
-      <h3>Pages count: {bookInfo.pageCount}</h3>
-      <h3>
-        Published: {bookInfo.publishedDate} {bookInfo.publisher}
-      </h3>
+        <h3>ISBN: {bookISBN}</h3>
+        <h3>Language: {bookInfo.language}</h3>
+        <h3>Pages count: {bookInfo.pageCount}</h3>
+        <h3>
+          Published: {bookInfo.publishedDate} {bookInfo.publisher}
+        </h3>
 
-      <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
+        <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
 
-      <h3>Description: {bookInfo.description}</h3>
-    </div>
+        <h3>Description: {bookInfo.description}</h3>
+      </div>
+    </>
   )
 }

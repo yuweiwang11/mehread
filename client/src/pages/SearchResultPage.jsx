@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import Nav from '../Nav'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -7,6 +7,7 @@ import Spinner from '../Spinner'
 import Pagination from '../Pagination'
 
 export default function SearchResultPage() {
+  const navigate = useNavigate()
   const { searchKeyword } = useParams()
   const [searchResults, setSearchResults] = useState([])
   const [loading, setLoading] = useState(false)
@@ -34,21 +35,22 @@ export default function SearchResultPage() {
   }
 
   function searchByISBN(searchWord) {
-    axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}`)
-      .then((response) => {
-        setSearchResults(response.data.items)
-      })
-      .then(() => {
-        setLoading(true)
-      })
+    // axios
+    //   .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}`)
+    //   .then((response) => {
+    //     setSearchResults(response.data.items)
+    //   })
+    //   .then(() => {
+    //     setLoading(true)
+    //   })
+    navigate(`/book/${searchWord}`)
   }
 
   useEffect(() => {
-    if (isNaN(searchKeyword)) {
-      searchByName(searchKeyword)
-    } else {
+    if ((!isNaN(searchKeyword) && searchKeyword.length === 13) || searchKeyword.length === 10) {
       searchByISBN(searchKeyword)
+    } else {
+      searchByName(searchKeyword)
     }
   }, [searchKeyword])
 
