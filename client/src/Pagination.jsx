@@ -9,7 +9,7 @@ export default function Pagination({ postsPerPage, totalPosts, paginate, current
     pageNumbers.push(i)
   }
   return (
-    <nav className="mt-8 flex justify-center">
+    <nav className="mt-16 flex justify-center">
       <ul className="inline-flex -space-x-px">
         {pageNumbers.map((num) => (
           <li className="text-xl content-center" key={num}>

@@ -12,6 +12,15 @@ export default function SearchResultPage() {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(8)
+  const resultsMessage = `Your search results for "${searchKeyword}"`
+
+  function linkToBookDetail(book) {
+    return `/book/${
+      book.volumeInfo.industryIdentifiers
+        ? book.volumeInfo.industryIdentifiers[0].identifier
+        : book.volumeInfo.title + '#' + book.volumeInfo.authors[0]
+    }`
+  }
 
   function searchByName(searchWord) {
     axios
@@ -60,37 +69,43 @@ export default function SearchResultPage() {
     <>
       <Nav />
       <SearchBar />
-      <div>search results for {searchKeyword}</div>
+      <div>{resultsMessage}</div>
 
-      <div>
+      <div className="mt-4">
         {currentPosts.length > 0 &&
           currentPosts.map((book) => (
             <div key={book.id}>
-              <Link
-                to={`/book/${
-                  book.volumeInfo.industryIdentifiers
-                    ? book.volumeInfo.industryIdentifiers[0].identifier
-                    : book.volumeInfo.title + '#' + book.volumeInfo.authors[0]
-                }`}
-              >
-                <img
-                  src={
-                    book.volumeInfo.imageLinks === undefined
-                      ? 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
-                      : book.volumeInfo.imageLinks.thumbnail
-                  }
-                  alt={`${book.volumeInfo.title} img`}
-                ></img>
-                <h2>{book.volumeInfo.title}</h2>
-                <h3>
-                  {book.volumeInfo.authors?.map((author) => (
-                    <div key={book.id + author}>{author}</div>
-                  ))}
-                </h3>
-              </Link>
+              <div className="flex gap-4 p-4 mb-4 border border-gray-300 rounded-xl">
+                <div className="flex w-32">
+                  <Link to={linkToBookDetail(book)}>
+                    <img
+                      src={
+                        book.volumeInfo.imageLinks === undefined
+                          ? 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
+                          : book.volumeInfo.imageLinks.thumbnail
+                      }
+                      alt={`${book.volumeInfo.title} img`}
+                    ></img>
+                  </Link>
+                </div>
+
+                <div className="">
+                  <Link to={linkToBookDetail(book)}>
+                    <h2 className="text-xl font-bold hover:sky-700">{book.volumeInfo.title}</h2>
+                  </Link>
+
+                  <div className="flex mt-1">
+                    {book.volumeInfo.authors?.map((author, index) => (
+                      <p key={index}>{author} |</p>
+                    ))}
+                    &nbsp;{book.volumeInfo.publishedDate} | &nbsp;{book.volumeInfo.publisher}
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
       </div>
+
       <Pagination
         postsPerPage={postsPerPage}
         totalPosts={searchResults.length}

@@ -23,16 +23,16 @@ export default function BookDetailPage() {
       <h1 className="text-xl">{bookInfo.subtitle}</h1>
 
       <h3>
-        {bookInfo.authors?.map((author) => (
-          <div key={author[0]}>{author}</div>
+        {bookInfo.authors?.map((author, index) => (
+          <div key={index}>{author}</div>
         ))}
       </h3>
       <span className="flex">
         <h3>Category: </h3>
         <h3>
           {' '}
-          {bookInfo.categories?.map((category) => (
-            <div key={category[0]}>{category}</div>
+          {bookInfo.categories?.map((category, index) => (
+            <div key={index}>{category}</div>
           ))}
         </h3>
       </span>
@@ -41,7 +41,7 @@ export default function BookDetailPage() {
       <h3>Language: {bookInfo.language}</h3>
       <h3>Pages count: {bookInfo.pageCount}</h3>
       <h3>
-        Published: {bookInfo.publishedDate} {bookInfo.publisher}
+        Published: &nbsp;{bookInfo.publishedDate} {bookInfo.publisher}
       </h3>
 
       <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
