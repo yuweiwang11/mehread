@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import Nav from '../Nav'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -7,20 +7,13 @@ import Spinner from '../Spinner'
 import Pagination from '../Pagination'
 
 export default function SearchResultPage() {
+  const navigate = useNavigate()
   const { searchKeyword } = useParams()
   const [searchResults, setSearchResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage] = useState(8)
-  const resultsMessage = `Your search results for "${searchKeyword}"`
-
-  function linkToBookDetail(book) {
-    return `/book/${
-      book.volumeInfo.industryIdentifiers
-        ? book.volumeInfo.industryIdentifiers[0].identifier
-        : book.volumeInfo.title + '#' + book.volumeInfo.authors[0]
-    }`
-  }
+  const resultsMessage = `Search results for "${searchKeyword}"`
 
   function searchByName(searchWord) {
     axios
@@ -34,21 +27,14 @@ export default function SearchResultPage() {
   }
 
   function searchByISBN(searchWord) {
-    axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${searchWord}&maxResults=40`)
-      .then((response) => {
-        setSearchResults(response.data.items)
-      })
-      .then(() => {
-        setLoading(true)
-      })
+    navigate(`/book/${searchWord}`)
   }
 
   useEffect(() => {
-    if (isNaN(searchKeyword)) {
-      searchByName(searchKeyword)
-    } else {
+    if ((!isNaN(searchKeyword) && searchKeyword.length === 13) || searchKeyword.length === 10) {
       searchByISBN(searchKeyword)
+    } else {
+      searchByName(searchKeyword)
     }
   }, [searchKeyword])
 
@@ -77,7 +63,7 @@ export default function SearchResultPage() {
             <div key={book.id}>
               <div className="flex gap-4 p-4 mb-4 border border-gray-300 rounded-xl">
                 <div className="flex w-32">
-                  <Link to={linkToBookDetail(book)}>
+                  <Link to={`/book/${book.id}`}>
                     <img
                       src={
                         book.volumeInfo.imageLinks === undefined
@@ -90,8 +76,10 @@ export default function SearchResultPage() {
                 </div>
 
                 <div className="">
-                  <Link to={linkToBookDetail(book)}>
-                    <h2 className="text-xl font-bold hover:sky-700">{book.volumeInfo.title}</h2>
+                  <Link to={`/book/${book.id}`}>
+                    <h2 className="text-xl font-bold hover:text-gray-500 ">
+                      {book.volumeInfo.title}
+                    </h2>
                   </Link>
 
                   <div className="flex mt-1">
