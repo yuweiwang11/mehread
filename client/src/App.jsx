@@ -6,6 +6,7 @@ import SearchResultPage from './pages/SearchResultPage'
 import BookDetailPage from './pages/BookDetailPage'
 import SigninPage from './pages/SigninPage'
 import SignupPage from './pages/SignupPage'
+import AccountPage from './pages/AccountPage'
 
 axios.defaults.baseURL = 'http://localhost:4000'
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/books/:searchKeyword" element={<SearchResultPage />} />
           <Route path="/book/:bookIdentifier" element={<BookDetailPage />} />
+          <Route path="/mehread/account" element={<AccountPage />} />
           <Route path="/mehread/signin" element={<SigninPage />} />
           <Route path="/mehread/signup" element={<SignupPage />} />
 
