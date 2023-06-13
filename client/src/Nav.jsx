@@ -10,7 +10,7 @@ export default function Nav() {
           </Link>
         </div>
         <div className="mt-2 ml-auto p-5 underline">
-          <Link to={'/mehread/login'}>login</Link>
+          <Link to={'/mehread/signin'}>login</Link>
         </div>
       </div>
     </>

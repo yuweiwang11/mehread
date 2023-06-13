@@ -4,7 +4,9 @@ import axios from 'axios'
 
 import SearchResultPage from './pages/SearchResultPage'
 import BookDetailPage from './pages/BookDetailPage'
-import LoginPage from './pages/LoginPage'
+import SigninPage from './pages/SigninPage'
+import SignupPage from './pages/SignupPage'
+import AccountPage from './pages/AccountPage'
 
 axios.defaults.baseURL = 'http://localhost:4000'
 
@@ -17,7 +19,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/books/:searchKeyword" element={<SearchResultPage />} />
           <Route path="/book/:bookIdentifier" element={<BookDetailPage />} />
-          <Route path="/mehread/login" element={<LoginPage />} />
+          <Route path="/mehread/account" element={<AccountPage />} />
+          <Route path="/mehread/signin" element={<SigninPage />} />
+          <Route path="/mehread/signup" element={<SignupPage />} />
 
           {/* <Route path="/account/bookings/:id" element={<BookingPage />} /> */}
         </Route>
