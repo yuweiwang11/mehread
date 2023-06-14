@@ -8,6 +8,7 @@ import SigninPage from './pages/SigninPage'
 import SignupPage from './pages/SignupPage'
 import AccountPage from './pages/AccountPage'
 import { AuthContextProvider } from './context/AuthContext'
+import ProtectedRoute from './ProtectedRoute'
 
 axios.defaults.baseURL = 'http://localhost:4000'
 
@@ -21,7 +22,14 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/books/:searchKeyword" element={<SearchResultPage />} />
             <Route path="/book/:bookIdentifier" element={<BookDetailPage />} />
-            <Route path="/mehread/account" element={<AccountPage />} />
+            <Route
+              path="/mehread/account"
+              element={
+                <ProtectedRoute>
+                  <AccountPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/mehread/signin" element={<SigninPage />} />
             <Route path="/mehread/signup" element={<SignupPage />} />
           </Route>
