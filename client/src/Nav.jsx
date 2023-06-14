@@ -5,10 +5,6 @@ export default function Nav() {
   const path = useLocation()
   const currentPath = path.pathname
   const [isHomePage, setIsHomePage] = useState(false)
-  console.log(currentPath === '/')
-  if (!path.pathname) {
-    console.log('home page')
-  }
 
   useEffect(() => {
     if (currentPath === '/') {
