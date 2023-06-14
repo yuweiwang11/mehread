@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import axios from 'axios'
-import { Navigate, Link } from 'react-router-dom'
 import SearchBar from '../SearchBar'
 
 export default function HomePage() {
