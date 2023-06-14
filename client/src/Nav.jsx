@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { UserAuth } from './context/AuthContext'
 
 export default function Nav() {
+  const { user, logout } = UserAuth()
+
   const path = useLocation()
   const currentPath = path.pathname
   const [isHomePage, setIsHomePage] = useState(false)
@@ -26,14 +29,23 @@ export default function Nav() {
         )}
 
         <div className=" mt-2 ml-auto p-5 underline">
-          <Link to={'/mehread/signin'}>
+          {!user && (
+            <Link to={'/mehread/signin'}>
+              <img
+                className="inline-flex w-6 mr-1 -mt-2"
+                src="../logo/usericon_lined.png"
+                alt="user_icon"
+              />
+              Log In
+            </Link>
+          )}
+          {user && (
             <img
               className="inline-flex w-6 mr-1 -mt-2"
-              src="../logo/usericon_lined.png"
+              src="../logo/usericon_filled.png"
               alt="user_icon"
             />
-            Log In
-          </Link>
+          )}
         </div>
       </div>
     </>
