@@ -1,6 +1,26 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { UserAuth } from '../context/AuthContext'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function SigninPage() {
+  const navigate = useNavigate()
+  const { signIn } = UserAuth()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [err, setErr] = useState('')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setErr('')
+    try {
+      await signIn(email, password)
+      navigate('/mehread/account')
+    } catch (e) {
+      setErr(e)
+      console.log(err)
+    }
+  }
+
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
       <div>
@@ -11,15 +31,27 @@ export default function SigninPage() {
         </p>
       </div>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium">Email: </label>
-          <input className="border p-3" type="email" />
+          <input
+            onChange={(e) => {
+              setEmail(e.target.value)
+            }}
+            className="border p-3"
+            type="email"
+          />
         </div>
 
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium">Password: </label>
-          <input className="border p-3" type="password" />
+          <input
+            onChange={(e) => {
+              setPassword(e.target.value)
+            }}
+            className="border p-3"
+            type="password"
+          />
         </div>
         <button className="w-full p-4 my-2 border-gary-500 bg-gray-800 hover:bg-gray-500 text-white">
           Sign Up

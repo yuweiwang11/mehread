@@ -1,7 +1,5 @@
-import { useState } from 'react'
-import axios from 'axios'
-import { Navigate, Link } from 'react-router-dom'
 import SearchBar from '../SearchBar'
+import Nav from '../Nav'
 
 export default function HomePage() {
   // function submitSearch(e) {
@@ -12,8 +10,9 @@ export default function HomePage() {
   // }
   return (
     <>
+      <Nav />
       <div className="p-6 flex flex-col justify-center items-center mt-36">
-        <img className="w-96 mb-8" src="./logo/MEH_v3.png" alt="logo" />
+        <img className="w-96 mb-8" src="../logo/MEH_v3.png" alt="logo" />
         <SearchBar />
       </div>
     </>
