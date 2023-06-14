@@ -16,8 +16,8 @@ export default function SignupPage() {
       await createUser(email, password)
       navigate('/mehread/account')
     } catch (e) {
-      setErr(e.message)
-      console.log(e)
+      setErr(e)
+      console.log(err)
     }
   }
 
