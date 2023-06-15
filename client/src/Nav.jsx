@@ -3,7 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { UserAuth } from './context/AuthContext'
 
 export default function Nav() {
-  const { user, logout } = UserAuth()
+  const { user } = UserAuth()
+  console.log('from nav:' + user.uid, user.email)
 
   const path = useLocation()
   const currentPath = path.pathname
