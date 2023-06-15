@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
 import parse from 'html-react-parser'
 
 export default function BookDetailPage() {
+  const navigate = useNavigate()
+
   const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
   const [loading, setLoading] = useState(false)
@@ -49,7 +51,11 @@ export default function BookDetailPage() {
   return (
     <>
       <Nav />
-      <SearchBar />
+      <div className="flex items-center justify-center">
+        <SearchBar />
+      </div>
+
+      <button onClick={() => navigate(-1)}>go back</button>
 
       <div>
         <h1 className="text-2xl">{bookInfo.title}</h1>
@@ -82,7 +88,9 @@ export default function BookDetailPage() {
 
         <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
 
-        <div>Description: {parse(bookInfo.description)}</div>
+        <div>
+          Description: {!bookInfo.description ? 'Not available' : parse(bookInfo.description)}
+        </div>
       </div>
     </>
   )

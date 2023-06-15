@@ -41,8 +41,10 @@ export default function SigninPage() {
       <div>
         <h1 className="text-2xl font-bold py-2">Sign in</h1>
         <p className="py-2">
-          Sign in page Don&apos;t have an accout yet?
-          <Link to={'/mehread/signup'}>Sign up</Link>
+          Don&apos;t have an accout yet?&nbsp;
+          <Link to={'/mehread/signup'} className="underline">
+            Sign up
+          </Link>
         </p>
       </div>
 

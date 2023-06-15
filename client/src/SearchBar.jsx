@@ -9,10 +9,10 @@ export default function SearchBar() {
     setSearchKeyword('')
   }
   return (
-    <div className="ml-28">
+    <div className="ml-28 flex">
       <form onSubmit={onSearchSubmit}>
         <input
-          className=" w-80 content-center"
+          className="w-96 content-center"
           name="search"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}

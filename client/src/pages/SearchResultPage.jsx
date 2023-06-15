@@ -54,7 +54,10 @@ export default function SearchResultPage() {
   return (
     <>
       <Nav />
-      <SearchBar />
+      <div className="flex items-center justify-center">
+        <SearchBar />
+      </div>
+
       <div>{resultsMessage}</div>
 
       <div className="mt-4">
