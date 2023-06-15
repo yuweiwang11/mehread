@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
-import htmlToText from 'html-to-text'
+import parse from 'html-react-parser'
 
 export default function BookDetailPage() {
   const { bookIdentifier } = useParams()
@@ -82,7 +82,7 @@ export default function BookDetailPage() {
 
         <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
 
-        <div>Description: {htmlToText(bookInfo.description)}</div>
+        <div>Description: {parse(bookInfo.description)}</div>
       </div>
     </>
   )
