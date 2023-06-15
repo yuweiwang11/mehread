@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UserAuth } from '../context/AuthContext'
 import { useNavigate, Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 
 export default function SigninPage() {
   const navigate = useNavigate()
-  const { signIn, googleSignin } = UserAuth()
+  const { signIn, googleSignin, user } = UserAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [err, setErr] = useState('')
@@ -15,7 +15,6 @@ export default function SigninPage() {
     setErr('')
     try {
       await signIn(email, password)
-      navigate('/mehread/account')
     } catch (e) {
       setErr(e)
       console.log(err)
@@ -23,12 +22,19 @@ export default function SigninPage() {
   }
 
   const handleGoogleSignin = async () => {
+    setErr('')
     try {
       await googleSignin()
     } catch (err) {
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    if (user) {
+      navigate('/mehread/account')
+    }
+  }, [user])
 
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
