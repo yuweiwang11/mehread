@@ -1,5 +1,6 @@
 import { UserAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import Spinner from '../Spinner'
 
 export default function AccountPage() {
   const navigate = useNavigate()
@@ -15,6 +16,7 @@ export default function AccountPage() {
       console.log(e)
     }
   }
+
   return (
     <div className="max-w-[600] mx-auto my-16 p-4">
       <h1 className="text-2xl font-bold py-4">Account Page</h1>
