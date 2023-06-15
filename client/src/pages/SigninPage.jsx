@@ -31,8 +31,9 @@ export default function SigninPage() {
   }
 
   useEffect(() => {
-    if (user) {
+    if (user != null) {
       navigate('/mehread/account')
+      alert('Login successfully')
     }
   }, [user])
 

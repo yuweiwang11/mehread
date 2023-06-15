@@ -4,7 +4,7 @@ import { UserAuth } from './context/AuthContext'
 
 export default function Nav() {
   const { user } = UserAuth()
-  console.log('from nav:' + user.uid, user.email)
+  console.log('from nav:' + user)
 
   const path = useLocation()
   const currentPath = path.pathname

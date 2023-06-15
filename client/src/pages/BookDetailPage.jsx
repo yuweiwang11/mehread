@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
+import htmlToText from 'html-to-text'
 
 export default function BookDetailPage() {
   const { bookIdentifier } = useParams()
@@ -15,6 +16,7 @@ export default function BookDetailPage() {
       .get(`https://www.googleapis.com/books/v1/volumes/${bookId}`)
       .then((response) => {
         setBookInfo(response.data.volumeInfo)
+        console.log(response.data.volumeInfo)
       })
       .then(() => {
         setLoading(true)
@@ -80,7 +82,7 @@ export default function BookDetailPage() {
 
         <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
 
-        <h3>Description: {bookInfo.description}</h3>
+        <div>Description: {htmlToText(bookInfo.description)}</div>
       </div>
     </>
   )
