@@ -42,6 +42,25 @@ export default function AccountPage() {
             <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
               {user && user.displayName}
             </h3>
+            <h3
+              className={
+                user && user.emailVerified === true
+                  ? 'text-center text-sm text-gray-800 font-medium leading-8'
+                  : 'text-center text-sm text-red-700 font-medium leading-8'
+              }
+            >
+              {user && user.emailVerified === true ? 'Verified' : 'Not Verified'}
+            </h3>
+            <p
+              className={
+                user && user.emailVerified === true
+                  ? ''
+                  : 'text-center px-2 py-2 text-xs text-gray-900 font-medium'
+              }
+            >
+              {user && user.emailVerified === true ? '' : 'Please verify your email'}
+            </p>
+
             {/* <div className="text-center text-gray-400 text-xs font-semibold">
               <p>Web Developer</p>
             </div> */}
@@ -50,12 +69,6 @@ export default function AccountPage() {
                 <tr>
                   <td className="px-2 py-2 text-gray-500 font-semibold">Email</td>
                   <td className="px-2 py-2">{user && user.email}</td>
-                </tr>
-                <tr>
-                  <td className="px-2 py-2 text-gray-500 font-semibold">Verified</td>
-                  <td className="px-2 py-2">
-                    {user && user.emailVerified === true ? 'Yes' : 'Please verify your email'}
-                  </td>
                 </tr>
               </tbody>
             </table>
