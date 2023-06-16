@@ -20,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
   const createUser = async (username, email, password) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password).catch((err) => console.log(err))
-      await await sendEmailVerification(auth.currentUser).catch((err) => console.log(err))
+      await sendEmailVerification(auth.currentUser).catch((err) => console.log(err))
       await updateProfile(auth.currentUser, { displayName: username }).catch((err) =>
         console.log(err)
       )
