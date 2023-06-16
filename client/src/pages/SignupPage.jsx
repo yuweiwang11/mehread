@@ -4,6 +4,7 @@ import { UserAuth } from '../context/AuthContext'
 
 export default function SignupPage() {
   const navigate = useNavigate()
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [err, setErr] = useState('')
@@ -13,7 +14,7 @@ export default function SignupPage() {
     e.preventDefault()
     setErr('')
     try {
-      await createUser(email, password)
+      await createUser(username, email, password)
       navigate('/mehread/account')
     } catch (e) {
       setErr(e)
@@ -34,6 +35,17 @@ export default function SignupPage() {
       </div>
 
       <form onSubmit={handleSubmit}>
+        <div className="flex flex-col py-2">
+          <label className="py-2 font-medium">Username: </label>
+          <input
+            onChange={(e) => {
+              setUsername(e.target.value)
+            }}
+            className="border p-3"
+            type="text"
+          />
+        </div>
+
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium">Email: </label>
           <input
