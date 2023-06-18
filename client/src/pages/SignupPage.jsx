@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { UserAuth } from '../context/AuthContext'
 
 export default function SignupPage() {
   const navigate = useNavigate()
@@ -8,19 +7,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [err, setErr] = useState('')
-  const { createUser } = UserAuth()
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setErr('')
-    try {
-      await createUser(username, email, password)
-      navigate('/mehread/account')
-    } catch (e) {
-      setErr(e)
-      console.log(err)
-    }
-  }
 
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
