@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { UserAuth } from '../context/AuthContext'
 import { useNavigate, Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 
