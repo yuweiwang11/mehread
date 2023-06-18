@@ -9,6 +9,7 @@ import SignupPage from './pages/SignupPage'
 import AccountPage from './pages/AccountPage'
 import { AuthContextProvider } from './context/AuthContext'
 import ProtectedRoute from './ProtectedRoute'
+import UserLibrary from './pages/UserLibrary'
 
 axios.defaults.baseURL = 'http://localhost:4000'
 
@@ -32,6 +33,7 @@ function App() {
             />
             <Route path="/mehread/signin" element={<SigninPage />} />
             <Route path="/mehread/signup" element={<SignupPage />} />
+            <Route path="/mehread/lib" element={<UserLibrary />} />
           </Route>
         </Routes>
       </AuthContextProvider>
