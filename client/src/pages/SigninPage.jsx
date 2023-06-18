@@ -4,36 +4,9 @@ import GoogleButton from 'react-google-button'
 
 export default function SigninPage() {
   const navigate = useNavigate()
-  const { signIn, googleSignin, user } = UserAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [err, setErr] = useState('')
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setErr('')
-    try {
-      await signIn(email, password)
-    } catch (e) {
-      setErr(e)
-      console.log(err)
-    }
-  }
-
-  const handleGoogleSignin = async () => {
-    setErr('')
-    try {
-      await googleSignin()
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  useEffect(() => {
-    if (user != null) {
-      navigate('/mehread/account')
-    }
-  }, [user])
 
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
@@ -75,7 +48,7 @@ export default function SigninPage() {
         </button>
       </form>
       <div className="w-full my-2">
-        <GoogleButton onClick={handleGoogleSignin} />
+        <GoogleButton />
       </div>
     </div>
   )
