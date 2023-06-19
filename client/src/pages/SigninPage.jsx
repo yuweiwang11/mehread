@@ -49,7 +49,13 @@ export default function SigninPage() {
         </button>
       </form>
       <div className="w-full my-2">
-        <button>GOOGLE+</button>
+        <button
+          onClick={() => {
+            window.location.href = 'http://localhost:4000/auth/google'
+          }}
+        >
+          GOOGLE+
+        </button>
       </div>
     </div>
   )

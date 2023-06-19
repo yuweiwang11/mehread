@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 require('./config/passport-setup')
 const authRoutes = require('./router/auth-routes')
+const passport = require('passport')
 
 app.use(express.json())
 
