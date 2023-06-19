@@ -20,7 +20,7 @@ export default function SigninPage() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium">Email: </label>
           <input
