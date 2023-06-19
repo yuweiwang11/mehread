@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
+import axios from 'axios'
 
 export default function SigninPage() {
   const navigate = useNavigate()
@@ -48,7 +49,7 @@ export default function SigninPage() {
         </button>
       </form>
       <div className="w-full my-2">
-        <GoogleButton />
+        <button>GOOGLE+</button>
       </div>
     </div>
   )
