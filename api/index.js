@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const mongoose = require('mongoose')
+User = require('./models/Users.js')
 require('./config/passport-setup')
 const authRoutes = require('./router/auth-routes')
 const passport = require('passport')
@@ -14,6 +16,7 @@ app.use(
   })
 )
 
+mongoose.connect(process.env.MONGOOSE_URL)
 //set up auth routes
 app.use('/auth', authRoutes)
 
