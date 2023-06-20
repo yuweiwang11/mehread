@@ -6,6 +6,7 @@ User = require('./models/Users.js')
 require('./config/passport-setup')
 const authRoutes = require('./router/auth-routes')
 const passport = require('passport')
+const cookieSession = require('cookie-session')
 
 app.use(express.json())
 
@@ -15,6 +16,17 @@ app.use(
     origin: 'http://localhost:5173',
   })
 )
+
+app.use(
+  cookieSession({
+    maxAge: 12 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY],
+  })
+)
+
+//initialize passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 mongoose.connect(process.env.MONGOOSE_URL)
 //set up auth routes
