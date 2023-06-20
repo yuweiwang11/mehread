@@ -47,7 +47,8 @@ function App() {
         })
         .then((response) => {
           console.log(response.status)
-          console.log(response.data)
+          console.log(response.data.user)
+          setUser(response.data.user)
         })
         .catch((error) => {
           console.log(error)
@@ -66,7 +67,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/books/:searchKeyword" element={<SearchResultPage />} />
           <Route path="/book/:bookIdentifier" element={<BookDetailPage />} />
-          <Route path="/mehread/account" element={<AccountPage />} />
+          <Route path="/mehread/account" element={<AccountPage user={user} />} />
           <Route path="/mehread/signin" element={<SigninPage />} />
           <Route path="/mehread/signup" element={<SignupPage />} />
           <Route path="/mehread/lib" element={<UserLibrary />} />
