@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
-User = require('./models/Users.js')
+const User = require('./models/Users.js')
 require('./config/passport-setup')
 const authRoutes = require('./router/auth-routes')
 const passport = require('passport')
@@ -18,9 +18,7 @@ app.use(
   })
 )
 
-app.use(
-  session({ secret: 'melody hensley is my spirit animal', resave: false, saveUninitialized: false })
-)
+app.use(session({ secret: process.env.COOKIE_KEY, resave: false, saveUninitialized: false }))
 
 // app.use(
 //   cookieSession({

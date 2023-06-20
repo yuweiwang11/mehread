@@ -26,23 +26,40 @@ passport.use(
       callbackURL: '/auth/google/redirect',
     },
     // passport callback function
-    function (accessToken, refreshToken, profile, done) {
-      User.findOne({ googleId: profile.id }).then((currentUser) => {
-        if (currentUser) {
-          console.log('user already exist:' + currentUser)
-          done(null, currentUser)
+    async function (accessToken, refreshToken, profile, done) {
+      const newUser = {
+        username: profile.displayName,
+        googleId: profile.id,
+      }
+      try {
+        let user = await User.findOne({ googleId: profile.id })
+        if (user) {
+          done(null, user)
         } else {
-          new User({
-            username: profile.displayName,
-            googleId: profile.id,
-          })
-            .save()
-            .then((newUser) => {
-              console.log('new user:' + newUser)
-              done(null, newUser)
-            })
+          user = await User.create(newUser)
+          done(null, user)
         }
-      })
+      } catch (err) {
+        console.log(err)
+      }
+
+      // User.findOne({ googleId: profile.id }).then((currentUser) => {
+
+      //   if (currentUser) {
+      //     console.log('user already exist:' + currentUser)
+      //     done(null, currentUser)
+      //   } else {
+      //     new User({
+      //       username: profile.displayName,
+      //       googleId: profile.id,
+      //     })
+      //       .save()
+      //       .then((newUser) => {
+      //         console.log('new user:' + newUser)
+      //         done(null, newUser)
+      //       })
+      //   }
+      // })
     }
   )
 )

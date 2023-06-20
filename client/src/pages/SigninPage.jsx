@@ -51,7 +51,8 @@ export default function SigninPage() {
       <div className="w-full my-2">
         <button
           onClick={() => {
-            window.location.href = 'http://localhost:4000/auth/google'
+            // window.location.href = 'http://localhost:4000/auth/google'
+            window.open('http://localhost:4000/auth/google', '_self')
           }}
         >
           GOOGLE+
