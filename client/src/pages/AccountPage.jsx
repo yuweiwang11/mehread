@@ -4,6 +4,10 @@ import Spinner from '../Spinner'
 export default function AccountPage({ user }) {
   const navigate = useNavigate()
 
+  function logout() {
+    window.open('http://localhost:4000/auth/logout', '_self')
+  }
+
   return (
     <div className="flex items-center h-screen w-full justify-center">
       <div className="max-w-xs">
@@ -13,7 +17,7 @@ export default function AccountPage({ user }) {
           </div>
           <div className="p-2">
             <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
-              {user.username}
+              {user?.username}
             </h3>
 
             <table className="text-xs my-3">
@@ -26,7 +30,9 @@ export default function AccountPage({ user }) {
             </table>
 
             <div className="text-center my-3">
-              <button className="border px-4 py-2">Logout</button>
+              <button onClick={logout} className="border px-4 py-2">
+                Logout
+              </button>
             </div>
           </div>
         </div>
