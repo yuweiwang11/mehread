@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
+import axios from 'axios'
 
 export default function SigninPage() {
   const navigate = useNavigate()
@@ -20,7 +21,7 @@ export default function SigninPage() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium">Email: </label>
           <input
@@ -48,7 +49,14 @@ export default function SigninPage() {
         </button>
       </form>
       <div className="w-full my-2">
-        <GoogleButton />
+        <button
+          onClick={() => {
+            // window.location.href = 'http://localhost:4000/auth/google'
+            window.open('http://localhost:4000/auth/google', '_self')
+          }}
+        >
+          GOOGLE+
+        </button>
       </div>
     </div>
   )
