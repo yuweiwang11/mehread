@@ -1,8 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../Spinner'
+import { useContext } from 'react'
 
-export default function AccountPage({ user }) {
+import { UserDataContext } from '../contexts/UserDataContext'
+
+export default function AccountPage() {
   const navigate = useNavigate()
+  const { user } = useContext(UserDataContext)
 
   function logout() {
     window.open('http://localhost:4000/auth/logout', '_self')
@@ -13,7 +17,10 @@ export default function AccountPage({ user }) {
       <div className="max-w-xs">
         <div className="bg-white shadow-xl rounded-lg p-6 ">
           <div className="photo-wrapper p-2">
-            <img className="w-32 h-32 rounded-full mx-auto" src="../logo/usericon_filled.png" />
+            <img
+              className="w-32 h-32 rounded-full mx-auto"
+              src={user.image ? user.image : '../logo/usericon_filled.png'}
+            />
           </div>
           <div className="p-2">
             <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
@@ -24,7 +31,7 @@ export default function AccountPage({ user }) {
               <tbody>
                 <tr>
                   <td className="px-2 py-2 text-gray-500 font-semibold">Email</td>
-                  <td className="px-2 py-2">abc@mehread.com</td>
+                  <td className="px-2 py-2">{user.email}</td>
                 </tr>
               </tbody>
             </table>

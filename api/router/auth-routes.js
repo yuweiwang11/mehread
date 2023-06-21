@@ -41,7 +41,7 @@ router.get(
   // handle with google
   '/google',
   passport.authenticate('google', {
-    scope: ['profile'],
+    scope: ['profile', 'email'],
   })
 )
 
@@ -52,15 +52,6 @@ router.get(
     successRedirect: client_url,
     failureRedirect: '/login/failed',
   })
-  // (req, res) => {
-  //   res.redirect(client_url)
-  // }
-  // res.redirect('/userProfile/')
-  // const userId = req.user._id
-  // res.redirect('http://localhost:5173/' + userId)
-
-  // res.writeHead(301, { Location: 'http://localhost:5173' })
-  // res.end()
 )
 
 module.exports = router

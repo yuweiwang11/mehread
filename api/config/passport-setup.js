@@ -28,8 +28,12 @@ passport.use(
     // passport callback function
     async function (accessToken, refreshToken, profile, done) {
       const newUser = {
-        username: profile.displayName,
         googleId: profile.id,
+        username: profile.displayName,
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        image: profile.photos[0].value,
+        email: profile.emails[0].value,
       }
       try {
         let user = await User.findOne({ googleId: profile.id })
@@ -42,24 +46,6 @@ passport.use(
       } catch (err) {
         console.log(err)
       }
-
-      // User.findOne({ googleId: profile.id }).then((currentUser) => {
-
-      //   if (currentUser) {
-      //     console.log('user already exist:' + currentUser)
-      //     done(null, currentUser)
-      //   } else {
-      //     new User({
-      //       username: profile.displayName,
-      //       googleId: profile.id,
-      //     })
-      //       .save()
-      //       .then((newUser) => {
-      //         console.log('new user:' + newUser)
-      //         done(null, newUser)
-      //       })
-      //   }
-      // })
     }
   )
 )

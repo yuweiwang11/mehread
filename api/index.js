@@ -18,7 +18,14 @@ app.use(
   })
 )
 
-app.use(session({ secret: process.env.COOKIE_KEY, resave: false, saveUninitialized: false }))
+app.use(
+  session({
+    secret: process.env.COOKIE_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 6 * 60 * 60 * 1000 },
+  })
+)
 
 // app.use(
 //   cookieSession({

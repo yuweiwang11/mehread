@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { UserDataContext } from './contexts/UserDataContext'
 
 export default function Nav() {
+  const { user } = useContext(UserDataContext)
   const path = useLocation()
   const currentPath = path.pathname
   const [isHomePage, setIsHomePage] = useState(false)
@@ -26,7 +28,16 @@ export default function Nav() {
         )}
 
         <div className=" mt-2 ml-auto p-5 underline">
-          {/* {!user && (
+          {user ? (
+            <>
+              <img
+                className="inline-flex w-6 mr-1 -mt-2 rounded-full"
+                src={user.image ? user.image : '../logo/usericon_filled.png'}
+                alt="user_icon"
+              />
+              <Link to={'/mehread/account'}>{user.username}</Link>
+            </>
+          ) : (
             <Link to={'/mehread/signin'}>
               <img
                 className="inline-flex w-6 mr-1 -mt-2"
@@ -35,15 +46,7 @@ export default function Nav() {
               />
               Log In
             </Link>
-          )} */}
-
-          {/* {user && (
-            <img
-              className="inline-flex w-6 mr-1 -mt-2"
-              src="../logo/usericon_filled.png"
-              alt="user_icon"
-            />
-          )} */}
+          )}
         </div>
       </div>
     </>
