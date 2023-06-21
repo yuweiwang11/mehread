@@ -29,11 +29,14 @@ export default function Nav() {
 
         <div className=" mt-2 ml-auto p-5 underline">
           {user ? (
-            <img
-              className="inline-flex w-6 mr-1 -mt-2"
-              src="../logo/usericon_filled.png"
-              alt="user_icon"
-            />
+            <>
+              <img
+                className="inline-flex w-6 mr-1 -mt-2 rounded-full"
+                src={user.image ? user.image : '../logo/usericon_filled.png'}
+                alt="user_icon"
+              />
+              <Link to={'/mehread/account'}>{user.username}</Link>
+            </>
           ) : (
             <Link to={'/mehread/signin'}>
               <img

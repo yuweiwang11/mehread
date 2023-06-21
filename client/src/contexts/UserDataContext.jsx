@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 
 export const UserDataContext = createContext()
 
@@ -32,8 +31,4 @@ export function UserDataContextProvider({ children }) {
   }, [])
 
   return <UserDataContext.Provider value={{ user, setUser }}>{children}</UserDataContext.Provider>
-}
-
-UserDataContextProvider.prototype = {
-  children: PropTypes.node,
 }

@@ -41,7 +41,7 @@ router.get(
   // handle with google
   '/google',
   passport.authenticate('google', {
-    scope: ['profile'],
+    scope: ['profile', 'email'],
   })
 )
 

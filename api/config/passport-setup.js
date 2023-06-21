@@ -27,9 +27,17 @@ passport.use(
     },
     // passport callback function
     async function (accessToken, refreshToken, profile, done) {
+      console.log('passportSetup page' + JSON.stringify(profile))
+      console.log(profile.emails[0].value)
+      console.log(profile.photos[0].value)
+
       const newUser = {
-        username: profile.displayName,
         googleId: profile.id,
+        username: profile.displayName,
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        image: profile.photos[0].value,
+        email: profile.emails[0].value,
       }
       try {
         let user = await User.findOne({ googleId: profile.id })

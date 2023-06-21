@@ -1,8 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../Spinner'
+import { useContext } from 'react'
+
+import { UserDataContext } from '../contexts/UserDataContext'
 
 export default function AccountPage() {
   const navigate = useNavigate()
+  const { user } = useContext(UserDataContext)
 
   function logout() {
     window.open('http://localhost:4000/auth/logout', '_self')
@@ -17,14 +21,14 @@ export default function AccountPage() {
           </div>
           <div className="p-2">
             <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
-              {/* {user?.username} */}
+              {user?.username}
             </h3>
 
             <table className="text-xs my-3">
               <tbody>
                 <tr>
                   <td className="px-2 py-2 text-gray-500 font-semibold">Email</td>
-                  <td className="px-2 py-2">abc@mehread.com</td>
+                  <td className="px-2 py-2">{user.email}</td>
                 </tr>
               </tbody>
             </table>
