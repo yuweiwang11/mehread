@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
 import axios from 'axios'
-
 import HomePage from './pages/HomePage'
 import SearchResultPage from './pages/SearchResultPage'
 import BookDetailPage from './pages/BookDetailPage'
@@ -8,8 +7,7 @@ import SigninPage from './pages/SigninPage'
 import SignupPage from './pages/SignupPage'
 import AccountPage from './pages/AccountPage'
 import UserLibrary from './pages/UserLibrary'
-import { useEffect, useState } from 'react'
-import { UserDataContext, UserDataContextProvider } from './contexts/UserDataContext'
+import { UserDataContextProvider } from './contexts/UserDataContext'
 
 axios.defaults.baseURL = 'http://localhost:4000'
 

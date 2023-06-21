@@ -17,7 +17,10 @@ export default function AccountPage() {
       <div className="max-w-xs">
         <div className="bg-white shadow-xl rounded-lg p-6 ">
           <div className="photo-wrapper p-2">
-            <img className="w-32 h-32 rounded-full mx-auto" src="../logo/usericon_filled.png" />
+            <img
+              className="w-32 h-32 rounded-full mx-auto"
+              src={user.image ? user.image : '../logo/usericon_filled.png'}
+            />
           </div>
           <div className="p-2">
             <h3 className="text-center text-xl text-gray-900 font-medium leading-8">

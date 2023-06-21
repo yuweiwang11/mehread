@@ -27,10 +27,6 @@ passport.use(
     },
     // passport callback function
     async function (accessToken, refreshToken, profile, done) {
-      console.log('passportSetup page' + JSON.stringify(profile))
-      console.log(profile.emails[0].value)
-      console.log(profile.photos[0].value)
-
       const newUser = {
         googleId: profile.id,
         username: profile.displayName,
@@ -50,24 +46,6 @@ passport.use(
       } catch (err) {
         console.log(err)
       }
-
-      // User.findOne({ googleId: profile.id }).then((currentUser) => {
-
-      //   if (currentUser) {
-      //     console.log('user already exist:' + currentUser)
-      //     done(null, currentUser)
-      //   } else {
-      //     new User({
-      //       username: profile.displayName,
-      //       googleId: profile.id,
-      //     })
-      //       .save()
-      //       .then((newUser) => {
-      //         console.log('new user:' + newUser)
-      //         done(null, newUser)
-      //       })
-      //   }
-      // })
     }
   )
 )

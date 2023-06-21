@@ -47,25 +47,6 @@ export default function Nav() {
               Log In
             </Link>
           )}
-
-          {/* {!user && (
-            <Link to={'/mehread/signin'}>
-              <img
-                className="inline-flex w-6 mr-1 -mt-2"
-                src="../logo/usericon_lined.png"
-                alt="user_icon"
-              />
-              Log In
-            </Link>
-          )}
-
-          {user && (
-            <img
-              className="inline-flex w-6 mr-1 -mt-2"
-              src="../logo/usericon_filled.png"
-              alt="user_icon"
-            />
-          )} */}
         </div>
       </div>
     </>
