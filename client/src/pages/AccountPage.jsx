@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../Spinner'
 
-export default function AccountPage({ user }) {
+export default function AccountPage() {
   const navigate = useNavigate()
 
   function logout() {
@@ -17,7 +17,7 @@ export default function AccountPage({ user }) {
           </div>
           <div className="p-2">
             <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
-              {user?.username}
+              {/* {user?.username} */}
             </h3>
 
             <table className="text-xs my-3">
