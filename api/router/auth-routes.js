@@ -1,6 +1,13 @@
 const router = require('express').Router()
 const passport = require('passport')
 const User = require('../models/Users')
+const Joi = require('joi')
+
+const userValidationSchema = Joi.object({
+  username: Joi.string().min(3).required(),
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required(),
+})
 
 const client_url = 'http://localhost:5173'
 
@@ -57,17 +64,22 @@ router.get(
 
 // register with password using jwt
 router.post('/register', async (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-  })
-  try {
-    const savedUser = await user.save()
-    res.send(savedUser)
-  } catch (err) {
-    res.status(400).send(err)
-  }
+  // validate user info using Joi
+  const validationErr = userValidationSchema.validate(req.body)
+
+  res.send(validationErr.error.details[0].message)
+  // if(validationErr) return res.status(400).send(validationErr.details[0].message)
+  // const user = new User({
+  //   username: req.body.username,
+  //   email: req.body.email,
+  //   password: req.body.password,
+  // })
+  // try {
+  //   const savedUser = await user.save()
+  //   res.send(savedUser)
+  // } catch (err) {
+  //   res.status(400).send(err)
+  // }
 })
 
 module.exports = router
