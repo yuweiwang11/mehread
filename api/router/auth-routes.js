@@ -2,6 +2,7 @@ const router = require('express').Router()
 const passport = require('passport')
 const User = require('../models/Users')
 const { registerValidation } = require('../validation')
+const bcript = require('bcryptjs')
 
 const client_url = 'http://localhost:5173'
 
@@ -60,16 +61,21 @@ router.get(
 router.post('/register', async (req, res) => {
   // validate user info using Joi
   const validation = registerValidation(req.body)
-
   if (validation.error) return res.status(400).send(validation.error.details[0].message)
 
+  // check user already exists
   const emailExist = await User.findOne({ email: req.body.email })
   if (emailExist) return res.status(400).send('Email already exists')
 
+  // hash password
+  // generate salt and hash password with salt
+  const salt = await bcript.genSaltSync(10)
+  const hashedPassword = await bcript.hashSync(req.body.password, salt)
+  // create new user
   const user = new User({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: hashedPassword,
   })
   try {
     const savedUser = await user.save()
