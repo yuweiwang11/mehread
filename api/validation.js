@@ -9,4 +9,12 @@ function registerValidation(validationInput) {
   return userValidationSchema.validate(validationInput)
 }
 
-module.exports = { registerValidation }
+function loginValidation(validationInput) {
+  const userValidationSchema = Joi.object({
+    email: Joi.string().min(6).required().email(),
+    password: Joi.string().min(6).required(),
+  })
+  return userValidationSchema.validate(validationInput)
+}
+
+module.exports = { registerValidation, loginValidation }

@@ -1,15 +1,15 @@
 const router = require('express').Router()
 const passport = require('passport')
 const User = require('../models/Users')
-const { registerValidation } = require('../validation')
+const { registerValidation, loginValidation } = require('../validation')
 const bcript = require('bcryptjs')
 
 const client_url = 'http://localhost:5173'
 
 //auth login
-router.get('/login', (req, res) => {
-  res.send('you have logged in')
-})
+// router.get('/login', (req, res) => {
+//   res.send('you have logged in')
+// })
 
 //auth logout
 router.get('/logout', (req, res, next) => {
@@ -79,10 +79,26 @@ router.post('/register', async (req, res) => {
   })
   try {
     const savedUser = await user.save()
-    res.send(savedUser)
+    res.send('user id ' + user._id)
   } catch (err) {
     res.status(400).send(err)
   }
+})
+
+router.post('/login', async (req, res) => {
+  // validate user info using Joi
+  const validation = loginValidation(req.body)
+  if (validation.error) return res.status(400).send(validation.error.details[0].message)
+
+  // check if email already exists
+  const userExist = await User.findOne({ email: req.body.email })
+  if (!userExist) return res.status(400).send('Email/User not found')
+
+  // check password
+  const validPassword = await bcript.compare(req.body.password, userExist.password)
+  if (!validPassword) return res.status(400).send('Invalid Password')
+
+  res.send('logged in')
 })
 
 module.exports = router
