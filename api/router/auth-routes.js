@@ -60,10 +60,11 @@ router.get(
 router.post('/register', async (req, res) => {
   // validate user info using Joi
   const validation = registerValidation(req.body)
-  console.log(validation)
 
   if (validation.error) return res.status(400).send(validation.error.details[0].message)
 
+  const emailExist = await User.findOne({ email: req.body.email })
+  if (emailExist) return res.status(400).send('Email already exists')
   const user = new User({
     username: req.body.username,
     email: req.body.email,
