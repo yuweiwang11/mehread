@@ -3,6 +3,7 @@ const passport = require('passport')
 const User = require('../models/Users')
 const { registerValidation, loginValidation } = require('../validation')
 const bcript = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const client_url = 'http://localhost:5173'
 
@@ -98,7 +99,9 @@ router.post('/login', async (req, res) => {
   const validPassword = await bcript.compare(req.body.password, userExist.password)
   if (!validPassword) return res.status(400).send('Invalid Password')
 
-  res.send('logged in')
+  // create and assign a token jwt
+  const jwtToken = jwt.sign({ _id: userExist._id }, process.env.TOKEN_SECRET)
+  res.header('auth-toekn', jwtToken).send(jwtToken)
 })
 
 module.exports = router
