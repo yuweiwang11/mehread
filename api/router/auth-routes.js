@@ -81,6 +81,7 @@ router.post('/register', async (req, res) => {
   try {
     const savedUser = await user.save()
     res.send('user id ' + user._id)
+    // res.json(usesr)
   } catch (err) {
     res.status(400).send(err)
   }
@@ -100,8 +101,12 @@ router.post('/login', async (req, res) => {
   if (!validPassword) return res.status(400).send('Invalid Password')
 
   // create and assign a token jwt
-  const jwtToken = jwt.sign({ _id: userExist._id }, process.env.TOKEN_SECRET)
-  res.header('auth-toekn', jwtToken).send(jwtToken)
+  const jwtToken = jwt.sign(
+    { id: userExist._id, username: userExist.username, email: userExist.email },
+    process.env.TOKEN_SECRET,
+    { expiresIn: '2h' }
+  )
+  res.header('auth-token', jwtToken).send(jwtToken)
 })
 
 module.exports = router
