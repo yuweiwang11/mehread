@@ -4,7 +4,7 @@ const { Schema } = mongoose
 const UserSchema = new Schema({
   googleId: {
     type: String,
-    required: true,
+    required: false,
   },
   username: {
     type: String,
@@ -14,8 +14,13 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  password: {
+    type: String,
+    required: false,
+  },
   image: {
     type: String,
+    required: false,
   },
   createdAt: {
     type: Date,

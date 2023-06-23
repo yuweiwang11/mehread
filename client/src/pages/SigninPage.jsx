@@ -1,13 +1,30 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import GoogleButton from 'react-google-button'
 import axios from 'axios'
+import { UserDataContext } from '../contexts/UserDataContext'
 
 export default function SigninPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [err, setErr] = useState('')
+  const { setUser } = useContext(UserDataContext)
+
+  async function handleSubmit(e) {
+    e.prevenDefault()
+    try {
+      const response = await axios.post('/auth/login', {
+        email,
+        password,
+      })
+      setUser(response.data)
+      console.log(response.data)
+      alert('Login successful')
+    } catch (err) {
+      console.log(err)
+      alert('Login failed')
+    }
+  }
 
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
@@ -21,7 +38,7 @@ export default function SigninPage() {
         </p>
       </div>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col py-2">
           <label className="py-2 font-medium">Email: </label>
           <input

@@ -20,7 +20,11 @@ export function UserDataContextProvider({ children }) {
           .then((response) => {
             console.log(response.status)
             console.log(response.data.user)
-            setUser(response.data.user)
+            if (response.status === 200) {
+              setUser(response.data.user)
+            } else {
+              throw new Error('authentication failed')
+            }
           })
           .catch((error) => {
             console.log(error)

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -6,7 +7,22 @@ export default function SignupPage() {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [err, setErr] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    try {
+      await axios.post('/auth/register', {
+        username,
+        email,
+        password,
+      })
+      alert('Successfully signed up! Now you can sign in to your account')
+      navigate('/mehread/signin')
+    } catch (err) {
+      console.log(err)
+      alert('Registration failed. Please check your registration infomation and try again.')
+    }
+  }
 
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
