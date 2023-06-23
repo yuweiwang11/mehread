@@ -50,46 +50,47 @@ export default function BookDetailPage() {
 
   return (
     <>
-      <Nav />
-      <div className="flex items-center justify-center">
-        <SearchBar />
-      </div>
+      <div className="max-w-3xl mx-auto">
+        <Nav />
+        <div className="flex items-center justify-center">
+          <SearchBar />
+        </div>
 
-      <button onClick={() => navigate(-1)}>go back</button>
+        <button className="mt-5" onClick={() => navigate(-1)}>
+          go back
+        </button>
 
-      <div>
-        <h1 className="text-2xl">{bookInfo.title}</h1>
-        <h1 className="text-xl">{bookInfo.subtitle}</h1>
+        <div className="mt-8">
+          <h1 className="text-2xl">{bookInfo.title}</h1>
+          <h1 className="text-xl">{bookInfo.subtitle}</h1>
 
-        <h3 className="flex">
-          Author(s):&nbsp;
-          {bookInfo.authors?.map((author, index) => (
-            <div key={index}>{author}</div>
-          ))}
-        </h3>
-        <h3 className="flex">
-          Category:{' '}
-          {bookInfo.categories?.map((category, index) => (
-            <div key={index}>&nbsp;{category}</div>
-          ))}
-        </h3>
+          <div className="mt-5 grid grid-cols-3 gap-2 ">
+            <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
+            <div>
+              <h3 className="flex">
+                Author(s):&nbsp;
+                {bookInfo.authors?.map((author, index) => (
+                  <div key={index}>{author}</div>
+                ))}
+              </h3>
 
-        <h3>
-          ISBN:{' '}
-          {bookInfo.industryIdentifiers
-            ? bookInfo.industryIdentifiers[1].identifier
-            : 'Not available'}
-        </h3>
-        <h3>Language: {bookInfo.language}</h3>
-        <h3>Pages count: {bookInfo.pageCount}</h3>
-        <h3>
-          Published: {bookInfo.publishedDate} {bookInfo.publisher}
-        </h3>
+              <h3>
+                ISBN:{' '}
+                {bookInfo.industryIdentifiers
+                  ? bookInfo.industryIdentifiers[1].identifier
+                  : 'Not available'}
+              </h3>
+              <h3>Language: {bookInfo.language}</h3>
+              <h3>Pages count: {bookInfo.pageCount}</h3>
+              <h3>
+                Published: {bookInfo.publishedDate} {bookInfo.publisher}
+              </h3>
+            </div>
+          </div>
 
-        <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
-
-        <div>
-          Description: {!bookInfo.description ? 'Not available' : parse(bookInfo.description)}
+          <div className="mt-5">
+            Description: {!bookInfo.description ? 'Not available' : parse(bookInfo.description)}
+          </div>
         </div>
       </div>
     </>
