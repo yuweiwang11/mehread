@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 function authenticateToken(req, res, next) {
-  const jwtToken = req.cookies['auth-token']
+  const jwtToken = req.cookies['auth_token']
   if (!jwtToken) return res.status(401).json({ error: 'Access Denied, user not authenticated' })
 
   try {

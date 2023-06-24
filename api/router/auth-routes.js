@@ -9,11 +9,6 @@ const { authenticateToken } = require('../verifyToken')
 const { application } = require('express')
 const client_url = 'http://localhost:5173'
 
-//auth login
-// router.get('/login', (req, res) => {
-//   res.send('you have logged in')
-// })
-
 //auth logout
 router.get('/logout', (req, res, next) => {
   // handle with passport
@@ -109,12 +104,25 @@ router.post('/login', async (req, res) => {
     { expiresIn: '2h' }
   )
   res
-    .cookie('auth-token', jwtToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+    .cookie('auth_token', jwtToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
     .json({ success: true, message: 'authentication successful', token: jwtToken })
 })
 
 router.get('/profile', authenticateToken, (req, res) => {
-  res.json('user profile ')
+  const { auth_token } = req.cookies
+  console.log(req.cookies)
+  if (auth_token) {
+    //verify token
+    jwt.verify(auth_token, process.env.TOKEN_SECRET, {}, async (err, userData) => {
+      if (err) throw err
+      const { username, email, _id } = await User.findById(userData.id)
+
+      res.json({ username, email, _id })
+    })
+  } else {
+    res.json(null)
+  }
+  // res.json('hello user')
 })
 
 module.exports = router
