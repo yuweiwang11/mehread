@@ -8,16 +8,15 @@ export default function SigninPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { setUser } = useContext(UserDataContext)
+  const { user, setUser } = useContext(UserDataContext)
 
   async function handleSubmit(e) {
-    e.prevenDefault()
+    e.preventDefault()
     try {
       const response = await axios.post('/auth/login', {
         email,
         password,
       })
-      setUser(response.data)
       console.log(response.data)
       alert('Login successful')
     } catch (err) {

@@ -85,6 +85,7 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
+  // const { email, password } = req.body
   // validate user info using Joi
   const validation = loginValidation(req.body)
   if (validation.error) return res.status(400).send(validation.error.details[0].message)
@@ -105,19 +106,17 @@ router.post('/login', async (req, res) => {
   )
   res
     .cookie('auth_token', jwtToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
-    .json({ success: true, message: 'authentication successful', token: jwtToken })
+    .json({ success: true, message: 'authentication successful', userData: userExist })
 })
 
 router.get('/profile', authenticateToken, (req, res) => {
   const { auth_token } = req.cookies
-  console.log(req.cookies)
   if (auth_token) {
     //verify token
     jwt.verify(auth_token, process.env.TOKEN_SECRET, {}, async (err, userData) => {
       if (err) throw err
       const { username, email, _id } = await User.findById(userData.id)
-
-      res.json({ username, email, _id })
+      res.status(200).json({ username, email, _id })
     })
   } else {
     res.json(null)
