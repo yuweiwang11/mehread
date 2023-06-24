@@ -12,6 +12,10 @@ export default function BookDetailPage() {
   const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
   const [loading, setLoading] = useState(false)
+  const [moreDescription, setMoreDescription] = useState(false)
+
+  let descriptionCSS = ''
+  let decriptionButton = ''
 
   function getBookById(bookId) {
     axios
@@ -48,6 +52,14 @@ export default function BookDetailPage() {
     return <Spinner />
   }
 
+  if (!moreDescription) {
+    descriptionCSS = 'mt-5 line-clamp-6'
+    decriptionButton = 'Show More ▼'
+  } else if (moreDescription) {
+    descriptionCSS = 'mt-5'
+    decriptionButton = 'Show Less ▲'
+  }
+
   return (
     <>
       <div className="max-w-3xl mx-auto">
@@ -76,8 +88,8 @@ export default function BookDetailPage() {
 
               <h3>
                 ISBN:{' '}
-                {bookInfo.industryIdentifiers
-                  ? bookInfo.industryIdentifiers[1].identifier
+                {bookInfo.industryIdentifiers && bookInfo.industryIdentifiers[1]
+                  ? bookInfo.industryIdentifiers[1]?.identifier
                   : 'Not available'}
               </h3>
               <h3>Language: {bookInfo.language}</h3>
@@ -88,9 +100,20 @@ export default function BookDetailPage() {
             </div>
           </div>
 
-          <div className="mt-5">
-            Description: {!bookInfo.description ? 'Not available' : parse(bookInfo.description)}
+          <div className={descriptionCSS}>
+            <p>
+              Description: <br />
+              {!bookInfo.description ? 'Not available' : parse(bookInfo.description)}
+            </p>
           </div>
+          <button
+            className="bg-white underline float-right"
+            onClick={() => {
+              moreDescription ? setMoreDescription(false) : setMoreDescription(true)
+            }}
+          >
+            {decriptionButton}
+          </button>
         </div>
       </div>
     </>
