@@ -4,7 +4,9 @@ const User = require('../models/Users')
 const { registerValidation, loginValidation } = require('../validation')
 const bcript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
+const cookieParser = require('cookie-parser')
+const { authenticateToken } = require('../verifyToken')
+const { application } = require('express')
 const client_url = 'http://localhost:5173'
 
 //auth login
@@ -106,7 +108,13 @@ router.post('/login', async (req, res) => {
     process.env.TOKEN_SECRET,
     { expiresIn: '2h' }
   )
-  res.header('auth-token', jwtToken).send(jwtToken)
+  res
+    .cookie('auth-token', jwtToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+    .json({ success: true, message: 'authentication successful', token: jwtToken })
+})
+
+router.get('/profile', authenticateToken, (req, res) => {
+  res.json('user profile ')
 })
 
 module.exports = router

@@ -8,8 +8,10 @@ const authRoutes = require('./router/auth-routes')
 const passport = require('passport')
 const cookieSession = require('cookie-session')
 const session = require('express-session')
+const cookieParser = require('cookie-parser')
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use(
   cors({
