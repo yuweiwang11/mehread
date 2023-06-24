@@ -87,7 +87,7 @@ export default function SearchResultPage() {
                     <div className="md:justify-left mt-1">
                       {book.volumeInfo.authors?.map((author, index) => (
                         <div className="inline " key={index}>
-                          {book.volumeInfo.authors.length > 2 ? ` ${author} |` : `${author}`}
+                          {book.volumeInfo.authors.length > 1 ? ` ${author} |` : `${author}`}
                         </div>
                       ))}
                       <div className="">{book.volumeInfo.publishedDate}</div>

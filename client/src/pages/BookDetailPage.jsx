@@ -90,16 +90,18 @@ export default function BookDetailPage() {
         </button>
 
         <div className="mt-5">
-          <h1 className="text-2xl">{bookInfo.title}</h1>
+          <h1 className="text-2xl font-bold">{bookInfo.title}</h1>
           <h1 className="text-xl">{bookInfo.subtitle}</h1>
 
           <div className="mt-5 grid grid-cols-3 gap-2 ">
             <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
             <div>
-              <h3 className="flex">
+              <h3 className="">
                 Author(s):&nbsp;
                 {bookInfo.authors?.map((author, index) => (
-                  <div key={index}>{author}</div>
+                  <div className="inline" key={index}>
+                    {bookInfo.authors.length > 1 ? ` ${author} |` : `${author}`}
+                  </div>
                 ))}
               </h3>
 
