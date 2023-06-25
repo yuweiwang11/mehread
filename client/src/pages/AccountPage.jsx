@@ -7,6 +7,7 @@ import { UserDataContext } from '../contexts/UserDataContext'
 export default function AccountPage() {
   const navigate = useNavigate()
   const { user } = useContext(UserDataContext)
+  // console.log(typeof user.image)
 
   function logout() {
     window.open('http://localhost:4000/auth/logout', '_self')
