@@ -34,27 +34,33 @@ export function UserDataContextProvider({ children }) {
     getUser()
   }, [])
 
-  // useEffect(() => {
-  //   const getUser = () => {
-  //     if (!user) {
-  //       axios
-  //         .get('http://localhost:4000/auth/profile')
-  //         .then((response) => {
-  //           console.log('local user' + response.data)
-  //           console.log('local user' + response.status)
-  //           if (response.status === 200) {
-  //             setUser(response.data.userData)
-  //           } else {
-  //             throw new Error('Local user authentication failed')
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.log(error)
-  //         })
-  //     }
-  //   }
-  //   getUser()
-  // }, [])
+  useEffect(() => {
+    const getUser = () => {
+      if (!user) {
+        axios
+          .get('/auth/profile', {
+            withCredentials: true,
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((response) => {
+            console.log('local user: ' + JSON.stringify(response.data))
+            console.log('local user: ' + response.status)
+            if (response.status === 200) {
+              setUser(response.data)
+            } else {
+              throw new Error('Local user authentication failed')
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    }
+    getUser()
+  }, [])
 
   return <UserDataContext.Provider value={{ user, setUser }}>{children}</UserDataContext.Provider>
 }
