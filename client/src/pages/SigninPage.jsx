@@ -24,7 +24,7 @@ export default function SigninPage() {
       setUser(response.data.userData)
       console.log(response.data)
       alert('Login successful')
-      // navigate('/mehread/account')
+      // navigate('/')
     } catch (err) {
       console.log(err)
       alert('Login failed')

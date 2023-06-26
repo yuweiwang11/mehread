@@ -16,7 +16,7 @@ router.get('/logout', (req, res, next) => {
     if (err) {
       return next(err)
     }
-    res.redirect(client_url)
+    res.cookie('auth_token', '').redirect(client_url)
   })
 })
 
