@@ -13,14 +13,18 @@ export default function SigninPage() {
   async function handleSubmit(e) {
     e.preventDefault()
     try {
-      const response = await axios.post('/auth/login', {
-        email,
-        password,
-      })
+      const response = await axios.post(
+        '/auth/login',
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      )
       setUser(response.data.userData)
       console.log(response.data)
       alert('Login successful')
-      navigate('/mehread/account')
+      // navigate('/mehread/account')
     } catch (err) {
       console.log(err)
       alert('Login failed')

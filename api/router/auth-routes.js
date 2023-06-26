@@ -104,7 +104,12 @@ router.post('/login', async (req, res) => {
     { expiresIn: '2h' }
   )
   res
-    .cookie('auth_token', jwtToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+    .cookie('auth_token', jwtToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      // ??
+      withCredentials: true,
+    })
     .json({ success: true, message: 'authentication successful', userData: userExist })
 })
 
