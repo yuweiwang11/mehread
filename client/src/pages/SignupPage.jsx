@@ -27,7 +27,7 @@ export default function SignupPage() {
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
       <div>
-        <h1 className="text-2xl font-bold py-2">Sign up</h1>
+        <h1 className="text-2xl font-bold py-2">Sign Up</h1>
         <p className="py-2">
           Already have an account?&nbsp;{' '}
           <Link to={'/mehread/signin'} className="underline">

@@ -8,18 +8,23 @@ export default function SigninPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { setUser } = useContext(UserDataContext)
+  const { user, setUser } = useContext(UserDataContext)
 
   async function handleSubmit(e) {
-    e.prevenDefault()
+    e.preventDefault()
     try {
-      const response = await axios.post('/auth/login', {
-        email,
-        password,
-      })
-      setUser(response.data)
+      const response = await axios.post(
+        '/auth/login',
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      )
+      setUser(response.data.userData)
       console.log(response.data)
       alert('Login successful')
+      // navigate('/')
     } catch (err) {
       console.log(err)
       alert('Login failed')
@@ -29,7 +34,7 @@ export default function SigninPage() {
   return (
     <div className="max-w-[700px] max-auto my-16 p-4">
       <div>
-        <h1 className="text-2xl font-bold py-2">Sign in</h1>
+        <h1 className="text-2xl font-bold py-2">Sign In</h1>
         <p className="py-2">
           Don&apos;t have an accout yet?&nbsp;
           <Link to={'/mehread/signup'} className="underline">
@@ -62,7 +67,7 @@ export default function SigninPage() {
         </div>
 
         <button className="w-full p-4 my-2 border-gary-500 bg-gray-800 hover:bg-gray-500 text-white">
-          Sign Up
+          Sign In
         </button>
       </form>
       <div className="w-full my-2">
