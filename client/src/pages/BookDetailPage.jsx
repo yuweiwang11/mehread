@@ -8,7 +8,6 @@ import parse from 'html-react-parser'
 
 export default function BookDetailPage() {
   const navigate = useNavigate()
-
   const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
   const [loading, setLoading] = useState(false)
@@ -61,7 +60,7 @@ export default function BookDetailPage() {
   }
   if (!bookInfo.description || bookInfo.description.length < 530) {
     descriptionCSS = 'mt-5'
-    decriptionButton = ''
+    decriptionButton = null
   }
 
   return (

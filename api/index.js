@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
 const User = require('./models/Users.js')
+const Library = require('./models/Library.js')
 require('./config/passport-setup')
 const authRoutes = require('./router/auth-routes')
 const passport = require('passport')
@@ -49,5 +50,16 @@ app.post('/bookSearch', (req, res) => {
   const { searchKeyword } = req.body
   res.json({ searchKeyword })
 })
+
+const newLib = new Library({
+  user: 'mimi',
+  // bookshelf: [
+  //   {
+  //     bookshelfName: 'want to read',
+  //     bookItems: {},
+  //   },
+  // ],
+})
+console.log(newLib)
 
 app.listen(4000)
