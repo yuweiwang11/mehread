@@ -8,7 +8,7 @@ export default function SigninPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { user, setUser } = useContext(UserDataContext)
+  const { setUser } = useContext(UserDataContext)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -24,7 +24,7 @@ export default function SigninPage() {
       setUser(response.data.userData)
       console.log(response.data)
       alert('Login successful')
-      // navigate('/')
+      navigate('/mehread/account')
     } catch (err) {
       console.log(err)
       alert('Login failed')

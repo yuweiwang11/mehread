@@ -110,7 +110,11 @@ router.post('/login', async (req, res) => {
       // ??
       withCredentials: true,
     })
-    .json({ success: true, message: 'authentication successful', userData: userExist })
+    .json({
+      success: true,
+      message: 'authentication successful',
+      userData: { id: userExist._id, username: userExist.username, email: userExist.email },
+    })
 })
 
 router.get('/profile', authenticateToken, (req, res) => {
