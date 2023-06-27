@@ -59,6 +59,10 @@ export default function BookDetailPage() {
     descriptionCSS = 'mt-5'
     decriptionButton = 'Show Less ▲'
   }
+  if (!bookInfo.description || bookInfo.description.length < 530) {
+    descriptionCSS = 'mt-5'
+    decriptionButton = ''
+  }
 
   return (
     <>
@@ -120,10 +124,10 @@ export default function BookDetailPage() {
           </div>
 
           <div className={descriptionCSS}>
-            <p>
+            <div>
               Description: <br />
               {!bookInfo.description ? 'Not available' : parse(bookInfo.description)}
-            </p>
+            </div>
           </div>
           <button
             className="bg-white underline float-right"
