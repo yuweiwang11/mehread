@@ -3,7 +3,7 @@ const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
 const User = require('./models/Users.js')
-const Library = require('./models/Library.js')
+const Bookshelf = require('./models/Bookshelf.js')
 require('./config/passport-setup')
 const authRoutes = require('./router/auth-routes')
 const passport = require('passport')
@@ -30,13 +30,6 @@ app.use(
   })
 )
 
-// app.use(
-//   cookieSession({
-//     maxAge: 12 * 60 * 60 * 1000,
-//     keys: [process.env.COOKIE_KEY],
-//   })
-// )
-
 //initialize passport
 app.use(passport.initialize())
 app.use(passport.session())
@@ -46,12 +39,7 @@ mongoose.connect(process.env.MONGOOSE_URL)
 //set up auth routes
 app.use('/auth', authRoutes)
 
-app.post('/bookSearch', (req, res) => {
-  const { searchKeyword } = req.body
-  res.json({ searchKeyword })
-})
-
-const newLib = new Library({
+const newLib = new Bookshelf({
   user: 'mimi',
   bookshelfName: 'want to read',
 })
