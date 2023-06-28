@@ -5,8 +5,12 @@ import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
 import parse from 'html-react-parser'
+import { useContext } from 'react'
+import { UserDataContext } from '../contexts/UserDataContext'
 
 export default function BookDetailPage() {
+  const { user } = useContext(UserDataContext)
+
   const navigate = useNavigate()
   const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
@@ -97,7 +101,8 @@ export default function BookDetailPage() {
           <h1 className="text-xl">{bookInfo.subtitle}</h1>
 
           <div className="mt-5 grid grid-cols-3 gap-2 ">
-            <img src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
+            <img className="ml-5" src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
+
             <div>
               <h3 className="">
                 Author(s):&nbsp;
@@ -121,6 +126,28 @@ export default function BookDetailPage() {
               </h3>
             </div>
           </div>
+
+          {user && (
+            <div className="mt-3">
+              <button className="flex mt-5 p-2 my-1 border border-gray-800 bg-white  rounded-xl  hover:bg-black hover:text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                  />
+                </svg>
+                Save to bookshelf
+              </button>
+            </div>
+          )}
 
           <div className={descriptionCSS}>
             <div>

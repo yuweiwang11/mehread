@@ -53,12 +53,7 @@ app.post('/bookSearch', (req, res) => {
 
 const newLib = new Library({
   user: 'mimi',
-  // bookshelf: [
-  //   {
-  //     bookshelfName: 'want to read',
-  //     bookItems: {},
-  //   },
-  // ],
+  bookshelfName: 'want to read',
 })
 console.log(newLib)
 
