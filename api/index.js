@@ -39,10 +39,10 @@ mongoose.connect(process.env.MONGOOSE_URL)
 //set up auth routes
 app.use('/auth', authRoutes)
 
-const newLib = new Bookshelf({
-  user: 'mimi',
+let newLib = new Bookshelf({
   bookshelfName: 'want to read',
 })
+
 console.log(newLib)
 
 app.listen(4000)

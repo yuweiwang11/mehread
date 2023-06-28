@@ -81,9 +81,27 @@ export default function SigninPage() {
           onClick={() => {
             window.open('http://localhost:4000/auth/google', '_self')
           }}
+          className="px-4 py-3 border flex gap-3 bg-gray-50  border-slate-400 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150"
         >
-          GOOGLE+
+          <img
+            className="w-6 h-6"
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            loading="lazy"
+            alt="google logo"
+          />
+          <span>Login with Google</span>
         </button>
+        {/* <button
+          onClick={() => {
+            window.open('http://localhost:4000/auth/google', '_self')
+          }}
+          className="px-4 py-2 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150"
+          
+          <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="google logo" />
+          
+        >
+          <span>Continue with GOOGLE</span>
+        </button> */}
       </div>
     </div>
   )
