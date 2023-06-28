@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { UserDataContext } from '../contexts/UserDataContext'
 
 export default function SignupPage() {
   const navigate = useNavigate()
+  const { user } = useContext(UserDataContext)
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -12,6 +14,12 @@ export default function SignupPage() {
   const [confirmEmailCSS, setConfirmEmailCSS] = useState('flex flex-col py-2 hidden')
   const [confirmPasswordCSS, setConfirmPasswordCSS] = useState('flex flex-col py-2 hidden')
   const [userInputValidation, setUserInputValidation] = useState('')
+
+  useEffect(() => {
+    if (user) {
+      return navigate('/mehread/account')
+    }
+  }, [user])
 
   async function handleSubmit(e) {
     e.preventDefault()

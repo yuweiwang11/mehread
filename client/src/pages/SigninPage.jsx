@@ -8,7 +8,13 @@ export default function SigninPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { setUser } = useContext(UserDataContext)
+  const { user, setUser } = useContext(UserDataContext)
+
+  useEffect(() => {
+    if (user) {
+      return navigate('/mehread/account')
+    }
+  }, [user])
 
   async function handleSubmit(e) {
     e.preventDefault()
