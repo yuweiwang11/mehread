@@ -87,6 +87,14 @@ export default function SignupPage() {
           <label className="py-2 font-medium ">Comfirm Email: </label>
           <input
             required
+            onPaste={(e) => {
+              e.preventDefault()
+              return false
+            }}
+            onDrop={(e) => {
+              e.preventDefault()
+              return false
+            }}
             onChange={(e) => {
               setConfirmEmail(e.target.value)
               setConfirmEmailCSS('flex flex-col py-2')
@@ -113,6 +121,14 @@ export default function SignupPage() {
           <label className="py-2 font-medium">Comfirm Password: </label>
           <input
             required
+            onPaste={(e) => {
+              e.preventDefault()
+              return false
+            }}
+            onDrop={(e) => {
+              e.preventDefault()
+              return false
+            }}
             onChange={(e) => {
               setConfirmPassword(e.target.value)
             }}
