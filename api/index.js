@@ -6,6 +6,7 @@ const User = require('./models/Users.js')
 const Bookshelf = require('./models/Bookshelf.js')
 require('./config/passport-setup')
 const authRoutes = require('./router/auth-routes')
+const bookshelfRoutes = require('./router/bookshelf-routes')
 const passport = require('passport')
 const cookieSession = require('cookie-session')
 const session = require('express-session')
@@ -38,5 +39,6 @@ mongoose.connect(process.env.MONGOOSE_URL)
 
 //set up auth routes
 app.use('/auth', authRoutes)
+app.use('/bookshelf', bookshelfRoutes)
 
 app.listen(4000)

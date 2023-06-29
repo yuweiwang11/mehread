@@ -8,7 +8,6 @@ const bcript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const { authenticateToken } = require('../verifyToken')
-const { application } = require('express')
 const client_url = 'http://localhost:5173'
 
 //auth logout
