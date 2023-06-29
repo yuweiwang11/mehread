@@ -64,9 +64,10 @@ export default function SearchResultPage() {
             currentPosts.map((book) => (
               <div key={book.id}>
                 <div className="flex gap-4 p-4 mb-4 border border-gray-300 rounded-xl">
-                  <div className="flex w-32">
-                    <Link to={`/book/${book.id}`}>
+                  <div>
+                    <Link className="flex w-32" to={`/book/${book.id}`}>
                       <img
+                        className=""
                         src={
                           book.volumeInfo.imageLinks === undefined
                             ? 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='

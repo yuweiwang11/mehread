@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const passport = require('passport')
 const User = require('../models/Users')
+const Bookshelf = require('../models/Bookshelf')
+
 const { registerValidation, loginValidation } = require('../validation')
 const bcript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -43,6 +45,7 @@ router.get(
   '/google',
   passport.authenticate('google', {
     scope: ['profile', 'email'],
+    prompt: 'select_account',
   })
 )
 
@@ -70,13 +73,18 @@ router.post('/register', async (req, res) => {
   const salt = await bcript.genSaltSync(10)
   const hashedPassword = await bcript.hashSync(req.body.password, salt)
   // create new user
-  const user = new User({
+  const user = await new User({
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
   })
   try {
     const savedUser = await user.save()
+    const UserBookshelf = await Bookshelf.insertMany([
+      { user: user._id, bookshelfName: 'Reading' },
+      { user: user._id, bookshelfName: 'Want to read' },
+      { user: user._id, bookshelfName: 'Have read' },
+    ])
     res.send('user id ' + user._id)
     // res.json(usesr)
   } catch (err) {

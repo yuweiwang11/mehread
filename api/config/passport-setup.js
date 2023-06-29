@@ -2,6 +2,8 @@ const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 
 const User = require('../models/Users')
+const Bookshelf = require('../models/Bookshelf')
+
 require('dotenv').config()
 
 const googleClientID = process.env.GOOGLE_CLIENT_ID
@@ -42,6 +44,11 @@ passport.use(
         } else {
           user = await User.create(newUser)
           done(null, user)
+          const UserBookshelf = await Bookshelf.insertMany([
+            { user: user._id, bookshelfName: 'Reading' },
+            { user: user._id, bookshelfName: 'Want to read' },
+            { user: user._id, bookshelfName: 'Have read' },
+          ])
         }
       } catch (err) {
         console.log(err)

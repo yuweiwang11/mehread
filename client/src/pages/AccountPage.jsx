@@ -1,13 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../Spinner'
-import { useContext } from 'react'
-
+import { useContext, useEffect } from 'react'
 import { UserDataContext } from '../contexts/UserDataContext'
 
 export default function AccountPage() {
   const navigate = useNavigate()
   const { user } = useContext(UserDataContext)
   console.log(user)
+
+  useEffect(() => {
+    if (!user) {
+      return navigate('/mehread/signin')
+    }
+  }, [user])
 
   function logout() {
     window.open('http://localhost:4000/auth/logout', '_self')
