@@ -69,7 +69,7 @@ export default function BookDetailPage() {
 
   return (
     <>
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <Nav />
         <div className="flex items-center justify-center">
           <SearchBar />

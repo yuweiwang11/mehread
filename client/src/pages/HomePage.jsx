@@ -11,7 +11,7 @@ export default function HomePage() {
   // }
   return (
     <>
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <Nav />
         <div className="p-6 flex flex-col justify-center items-center mt-36">
           <img className="w-96 mb-8" src="../../logo/MEH_v3.png" alt="logo" />
