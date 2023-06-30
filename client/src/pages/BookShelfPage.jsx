@@ -27,7 +27,12 @@ export default function BookShelfPage() {
   return (
     <>
       <div>bookshelf page hello {userid}</div>
-      <div>{userBookshelves.map((bookshelf) => bookshelf.bookshelfName)}</div>
+      {userBookshelves.map((bookshelf, index) => (
+        <div className="flex flex-col" key={index}>
+          {bookshelf._id}
+          {bookshelf.bookshelfName}
+        </div>
+      ))}
     </>
   )
 }

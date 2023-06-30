@@ -1,5 +1,6 @@
 import SearchBar from '../SearchBar'
 import Nav from '../Nav'
+import Footer from '../Footer'
 
 export default function HomePage() {
   // function submitSearch(e) {
@@ -16,6 +17,9 @@ export default function HomePage() {
           <img className="w-96 mb-8" src="../../logo/MEH_v3.png" alt="logo" />
           <SearchBar />
         </div>
+      </div>
+      <div className="pt-80">
+        <Footer />
       </div>
     </>
   )
