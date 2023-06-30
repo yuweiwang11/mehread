@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import GoogleButton from 'react-google-button'
 import axios from 'axios'
 import { UserDataContext } from '../contexts/UserDataContext'
 
@@ -8,13 +7,16 @@ export default function SigninPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { user, setUser } = useContext(UserDataContext)
+  const [loggedin, setLoggedin] = useState(false)
+  const { user } = useContext(UserDataContext)
 
   useEffect(() => {
-    if (user) {
-      return navigate('/mehread/account')
+    if (loggedin) {
+      console.log(user)
+      navigate('/')
+      location.reload()
     }
-  }, [user])
+  }, [loggedin])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -27,10 +29,9 @@ export default function SigninPage() {
         },
         { withCredentials: true }
       )
-      setUser(response.data.userData)
+      setLoggedin(true)
       console.log(response.data)
       alert('Login successful')
-      navigate('/mehread/account')
     } catch (err) {
       console.log(err)
       alert('Login failed')

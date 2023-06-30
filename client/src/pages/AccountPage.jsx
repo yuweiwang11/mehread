@@ -6,7 +6,7 @@ import { UserDataContext } from '../contexts/UserDataContext'
 export default function AccountPage() {
   const navigate = useNavigate()
   const { user } = useContext(UserDataContext)
-  console.log(user)
+  // console.log(user)
 
   useEffect(() => {
     if (!user) {

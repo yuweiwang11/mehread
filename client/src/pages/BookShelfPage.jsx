@@ -2,18 +2,25 @@ import axios from 'axios'
 import { UserDataContext } from '../contexts/UserDataContext'
 import { useContext, useEffect, useState } from 'react'
 import Nav from '../Nav'
+import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
+import { useNavigate } from 'react-router-dom'
 
 export default function BookShelfPage() {
   const { user } = useContext(UserDataContext)
-  const [userBookshelves, setUserBookshelves] = useState([])
+  const navigate = useNavigate()
+  const [userBookshelves, setUserBookshelves] = useState(null)
   let userid = ''
   if (user) {
     userid = user._id
   }
 
   useEffect(() => {
+    if (!user) {
+      navigate('/mehread/signin')
+    }
     if (user) {
+      console.log(user)
       axios
         .post('/bookshelf/getbookshelves', { userid })
         .then((response) => {
@@ -25,6 +32,11 @@ export default function BookShelfPage() {
         })
     }
   }, [user])
+
+  if (!userBookshelves) {
+    // window.location.reload(false)
+    return <Spinner />
+  }
 
   return (
     <>
@@ -49,12 +61,13 @@ export default function BookShelfPage() {
                 <span className="">MY BOOKSHELF</span>
               </span>
             </div>
-            {userBookshelves.map((bookshelf, index) => (
-              <div className="my-4" key={index}>
-                {/* {bookshelf._id} */}
-                {bookshelf.bookshelfName.toUpperCase()}
-              </div>
-            ))}
+            {userBookshelves &&
+              userBookshelves.map((bookshelf, index) => (
+                <div className="my-4" key={index}>
+                  {/* {bookshelf._id} */}
+                  {bookshelf.bookshelfName.toUpperCase()}
+                </div>
+              ))}
             {/* <div className="my-4">HELLO</div>
             <div className="my-4">HELLO</div> */}
           </aside>
