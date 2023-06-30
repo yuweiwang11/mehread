@@ -53,17 +53,17 @@ export default function SearchResultPage() {
 
   return (
     <>
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <Nav />
         <div className="flex items-center justify-center">
           <SearchBar />
         </div>
-        <div>{resultsMessage}</div>
-        <div className="mt-4">
+        <div className="mt-8 ml-2">{resultsMessage}</div>
+        <div className="mt-5">
           {currentPosts.length > 0 &&
             currentPosts.map((book) => (
               <div key={book.id}>
-                <div className="flex gap-4 p-4 mb-4 border border-gray-300 rounded-xl">
+                <div className="flex gap-4 p-4 mb-4 border border-gray-100 rounded-xl bg-gray-50 shadow-md">
                   <div>
                     <Link className="flex w-32" to={`/book/${book.id}`}>
                       <img

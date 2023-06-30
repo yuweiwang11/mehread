@@ -43,7 +43,16 @@ export default function AccountPage() {
                 </tbody>
               </table>
 
-              <div className="text-center my-3">
+              <div className="text-center my-3 flex justify-center">
+                <button
+                  className="border px-4 py-2 "
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate('/mehread/bookshelf')
+                  }}
+                >
+                  Bookshelf
+                </button>
                 <button onClick={logout} className="border px-4 py-2">
                   Logout
                 </button>
