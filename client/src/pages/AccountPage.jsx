@@ -6,7 +6,7 @@ import { UserDataContext } from '../contexts/UserDataContext'
 export default function AccountPage() {
   const navigate = useNavigate()
   const { user } = useContext(UserDataContext)
-  console.log(user)
+  // console.log(user)
 
   useEffect(() => {
     if (!user) {
@@ -46,8 +46,8 @@ export default function AccountPage() {
               <div className="text-center my-3 flex justify-center">
                 <button
                   className="border px-4 py-2 "
-                  onClick={(e) => {
-                    e.preventDefault()
+                  onClick={() => {
+                    // e.preventDefault()
                     navigate('/mehread/bookshelf')
                   }}
                 >
