@@ -4,54 +4,36 @@ import { useContext, useEffect, useState } from 'react'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 export default function BookShelfPage() {
   const { user } = useContext(UserDataContext)
-  const navigate = useNavigate()
   const [userBookshelves, setUserBookshelves] = useState(null)
-  let userid = ''
+  let userid = null
   if (user) {
     userid = user._id
   }
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/mehread/signin')
-    }
-    if (user) {
-      console.log(user)
-      axios
-        .post('/bookshelf/getbookshelves', { userid })
-        .then((response) => {
-          console.log(response.data)
-          setUserBookshelves(response.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
-  }, [user])
+  if (!user) return <Navigate to={'/mehread/signin'} />
+
+  if (user && !userBookshelves) {
+    axios
+      .post('/bookshelf/getbookshelves', { userid })
+      .then((response) => {
+        console.log(response.data)
+        setUserBookshelves(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   if (!userBookshelves) {
-    // window.location.reload(false)
     return <Spinner />
   }
 
   return (
     <>
-      {/* <div className="max-w-4xl mx-auto border border-black">
-        <Nav />
-        <div className="">
-          <div>bookshelf page hello {userid}</div>
-          {userBookshelves.map((bookshelf, index) => (
-            <div className="flex flex-col" key={index}>
-              {bookshelf._id}
-              {bookshelf.bookshelfName}
-            </div>
-          ))}
-        </div>
-      </div> */}
       <div className="max-w-4xl mx-auto">
         <Nav />
         <div className="flex min-h-screen flex-row bg-gray-200 shadow-sm">

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Navigate, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { UserDataContext } from '../contexts/UserDataContext'
 
@@ -7,16 +7,8 @@ export default function SigninPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loggedin, setLoggedin] = useState(false)
-  const { user } = useContext(UserDataContext)
-
-  useEffect(() => {
-    if (loggedin) {
-      console.log(user)
-      navigate('/')
-      location.reload()
-    }
-  }, [loggedin])
+  const [redirect, setRedirect] = useState(false)
+  const { user, setUser } = useContext(UserDataContext)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -29,13 +21,17 @@ export default function SigninPage() {
         },
         { withCredentials: true }
       )
-      setLoggedin(true)
-      console.log(response.data)
+      setUser(response.data.userData)
       alert('Login successful')
+      setRedirect(true)
     } catch (err) {
       console.log(err)
       alert('Login failed')
     }
+  }
+  if (redirect) {
+    navigate('/')
+    location.reload()
   }
 
   return (
