@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
+import Modal from '../Modal'
+
 import parse from 'html-react-parser'
 import { useContext } from 'react'
 import { UserDataContext } from '../contexts/UserDataContext'
@@ -16,6 +18,7 @@ export default function BookDetailPage() {
   const [bookInfo, setBookInfo] = useState({})
   const [loading, setLoading] = useState(false)
   const [moreDescription, setMoreDescription] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   let descriptionCSS = ''
   let decriptionButton = ''
@@ -129,7 +132,12 @@ export default function BookDetailPage() {
 
           {user && (
             <div className="mt-3">
-              <button className="flex mt-5 p-2 my-1 border border-gray-800 bg-white  rounded-xl  hover:bg-black hover:text-white">
+              <button
+                onClick={() => {
+                  setModalOpen(true)
+                }}
+                className="flex mt-5 p-2 my-1 border border-gray-800 bg-white  rounded-xl  hover:bg-black hover:text-white"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -146,6 +154,9 @@ export default function BookDetailPage() {
                 </svg>
                 &nbsp;Save to bookshelf
               </button>
+              <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                model
+              </Modal>
             </div>
           )}
 
