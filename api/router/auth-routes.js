@@ -80,9 +80,9 @@ router.post('/register', async (req, res) => {
   try {
     const savedUser = await user.save()
     const UserBookshelf = await Bookshelf.insertMany([
-      { user: user._id, bookshelfName: 'Reading' },
-      { user: user._id, bookshelfName: 'Want to read' },
-      { user: user._id, bookshelfName: 'Have read' },
+      { user: user._id, bookshelfName: 'reading' },
+      { user: user._id, bookshelfName: 'want to read' },
+      { user: user._id, bookshelfName: 'have read' },
     ])
     res.send('user id ' + user._id)
     // res.json(usesr)
