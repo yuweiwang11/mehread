@@ -17,6 +17,7 @@ export default function BookDetailPage() {
   const [moreDescription, setMoreDescription] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [bookshelves, setBookshelves] = useState(null)
+  const [chosenBookshelf, setChosenBookshelf] = useState(null)
   let userid = null
   if (user) {
     userid = user._id
@@ -84,9 +85,16 @@ export default function BookDetailPage() {
     decriptionButton = null
   }
 
-  function chooseBookshelf(e) {
-    e.preventDefault()
-    console.log(e.target.value)
+  function chooseBookshelfButton(bookshelfName) {
+    const inactivated =
+      'mt-10 inline-block w-2/3 rounded-full bg-zinc-100 border-2 border-zinc-500  py-4 text-sm font-bold text-black shadow-md hover:bg-zinc-800 hover:text-white'
+    const activated =
+      'mt-10 inline-block w-2/3 rounded-full py-4 bg-zinc-800 text-white text-sm font-bold shadow-md '
+    if (bookshelfName === chosenBookshelf) {
+      return activated
+    } else {
+      return inactivated
+    }
   }
 
   return (
@@ -179,14 +187,23 @@ export default function BookDetailPage() {
                     <button
                       onClick={(e) => {
                         console.log(e.target.value)
+                        setChosenBookshelf(e.target.value)
                       }}
-                      className="mt-10 inline-block w-2/3 rounded-full bg-zinc-700 py-4 text-sm font-bold text-white shadow-xl hover:bg-zinc-900"
+                      className={chooseBookshelfButton(bookshelf.bookshelfName)}
                       value={bookshelf.bookshelfName}
                     >
                       {bookshelf.bookshelfName.toUpperCase()}
                     </button>
                   </div>
                 ))}
+                <div className="flex justify-center mt-10 mb-5 items-center ">
+                  <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
+                    {chosenBookshelf && `Save book to ${chosenBookshelf}.`}
+                  </p>
+                  <button className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900">
+                    Comfirm
+                  </button>
+                </div>
               </Modal>
             </div>
           )}

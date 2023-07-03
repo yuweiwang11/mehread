@@ -24,7 +24,7 @@ export default function Modal({ open, children, onClose }) {
           </button>
           <div className=" p-8 text-center sm:p-6">
             <p className="mb-5 text-xl font-semibold uppercase tracking-widest text-zinc-800">
-              Please choose your bookshelf you want to save this book to:
+              Please choose the bookshelf you want to save this book to:
             </p>
 
             {/* <a
