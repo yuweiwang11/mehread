@@ -45,9 +45,9 @@ passport.use(
           user = await User.create(newUser)
           done(null, user)
           const UserBookshelf = await Bookshelf.insertMany([
-            { user: user._id, bookshelfName: 'Reading' },
-            { user: user._id, bookshelfName: 'Want to read' },
-            { user: user._id, bookshelfName: 'Have read' },
+            { user: user._id, bookshelfName: 'reading' },
+            { user: user._id, bookshelfName: 'want to read' },
+            { user: user._id, bookshelfName: 'have read' },
           ])
         }
       } catch (err) {

@@ -1,24 +1,39 @@
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { UserDataContext } from '../contexts/UserDataContext'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
 import Modal from '../Modal'
-
 import parse from 'html-react-parser'
-import { useContext } from 'react'
-import { UserDataContext } from '../contexts/UserDataContext'
 
 export default function BookDetailPage() {
-  const { user } = useContext(UserDataContext)
-
   const navigate = useNavigate()
+  const { user } = useContext(UserDataContext)
   const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
   const [loading, setLoading] = useState(false)
   const [moreDescription, setMoreDescription] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const [bookshelves, setBookshelves] = useState(null)
+  const [chosenBookshelf, setChosenBookshelf] = useState(null)
+  let userid = null
+  if (user) {
+    userid = user._id
+  }
+
+  if (user && !bookshelves) {
+    axios
+      .post('/bookshelf/getbookshelves', { userid })
+      .then((response) => {
+        console.log(response.data)
+        setBookshelves(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   let descriptionCSS = ''
   let decriptionButton = ''
@@ -68,6 +83,18 @@ export default function BookDetailPage() {
   if (!bookInfo.description || bookInfo.description.length < 530) {
     descriptionCSS = 'mt-5'
     decriptionButton = null
+  }
+
+  function chooseBookshelfButton(bookshelfName) {
+    const inactivated =
+      'mt-10 inline-block w-2/3 rounded-full bg-zinc-100 border-2 border-zinc-500  py-4 text-sm font-bold text-black shadow-md hover:bg-zinc-800 hover:text-white'
+    const activated =
+      'mt-10 inline-block w-2/3 rounded-full py-4 bg-zinc-800 text-white text-sm font-bold shadow-md '
+    if (bookshelfName === chosenBookshelf) {
+      return activated
+    } else {
+      return inactivated
+    }
   }
 
   return (
@@ -155,7 +182,28 @@ export default function BookDetailPage() {
                 &nbsp;Save to bookshelf
               </button>
               <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                model
+                {bookshelves.map((bookshelf, index) => (
+                  <div key={index}>
+                    <button
+                      onClick={(e) => {
+                        console.log(e.target.value)
+                        setChosenBookshelf(e.target.value)
+                      }}
+                      className={chooseBookshelfButton(bookshelf.bookshelfName)}
+                      value={bookshelf.bookshelfName}
+                    >
+                      {bookshelf.bookshelfName.toUpperCase()}
+                    </button>
+                  </div>
+                ))}
+                <div className="flex justify-center mt-10 mb-5 items-center ">
+                  <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
+                    {chosenBookshelf && `Save book to ${chosenBookshelf}.`}
+                  </p>
+                  <button className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900">
+                    Comfirm
+                  </button>
+                </div>
               </Modal>
             </div>
           )}
