@@ -31,12 +31,6 @@ router.get('/checkBookSaved', async (req, res) => {
   const { userid } = req.body
   const getUerBooks = await Bookitem.find({ user: userid })
   res.json(getUerBooks)
-  // for (let i = 0; i < getUerBooks.length; i++) {
-  //   if (getUerBooks[i].bookitem.id === bookId) {
-  //     console.log('bookid in loop:' + getUerBooks[i].bookitem.id)
-  //     console.log(getUerBooks[i]._id)
-  //   }
-  // }
 })
 
 module.exports = router
