@@ -1,5 +1,6 @@
 const User = require('../models/Users')
 const Bookshelf = require('../models/Bookshelf')
+const Bookitem = require('../models/Bookitem')
 
 const jwt = require('jsonwebtoken')
 
@@ -17,4 +18,13 @@ router.post('/getbookshelves', async (req, res) => {
   }
 })
 
+router.post('/addToBookShelves', async (req, res) => {
+  const { targetBookshelfId, bookInfo } = req.body
+  const newBookitem = await Bookitem.create({
+    bookshelfId: targetBookshelfId,
+    bookitem: bookInfo,
+  })
+  res.json(newBookitem)
+  // console.log(targetBookshelfId, bookInfo)
+})
 module.exports = router

@@ -97,6 +97,22 @@ export default function BookDetailPage() {
     }
   }
 
+  function submitAddBook(e) {
+    e.preventDefault()
+    for (let i = 0; i < bookshelves.length; i++) {
+      if (bookshelves[i].bookshelfName === chosenBookshelf) {
+        const targetBookshelfId = bookshelves[i]._id
+        try {
+          axios.post('/bookshelf/addToBookShelves', { targetBookshelfId, bookInfo })
+          alert(`Added to ${chosenBookshelf}`)
+          setModalOpen(false)
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    }
+  }
+
   return (
     <>
       <div className="max-w-4xl mx-auto">
@@ -182,11 +198,10 @@ export default function BookDetailPage() {
                 &nbsp;Save to bookshelf
               </button>
               <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                {bookshelves.map((bookshelf, index) => (
-                  <div key={index}>
+                {bookshelves.map((bookshelf) => (
+                  <div key={bookshelf._id}>
                     <button
                       onClick={(e) => {
-                        console.log(e.target.value)
                         setChosenBookshelf(e.target.value)
                       }}
                       className={chooseBookshelfButton(bookshelf.bookshelfName)}
@@ -200,7 +215,10 @@ export default function BookDetailPage() {
                   <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
                     {chosenBookshelf && `Save book to ${chosenBookshelf}.`}
                   </p>
-                  <button className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900">
+                  <button
+                    onClick={submitAddBook}
+                    className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900"
+                  >
                     Comfirm
                   </button>
                 </div>
