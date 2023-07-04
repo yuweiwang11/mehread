@@ -13,6 +13,7 @@ export default function BookDetailPage() {
   const { user } = useContext(UserDataContext)
   const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
+  const [bookInfoForBookitem, setBookInfoForBookitem] = useState(null)
   const [loading, setLoading] = useState(false)
   const [moreDescription, setMoreDescription] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -42,8 +43,9 @@ export default function BookDetailPage() {
     axios
       .get(`https://www.googleapis.com/books/v1/volumes/${bookId}`)
       .then((response) => {
+        setBookInfoForBookitem(response.data)
         setBookInfo(response.data.volumeInfo)
-        console.log(response.data.volumeInfo)
+        console.log(response.data)
       })
       .then(() => {
         setLoading(true)
@@ -54,6 +56,7 @@ export default function BookDetailPage() {
     axios
       .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN}`)
       .then((response) => {
+        setBookInfoForBookitem(response.data.items[0])
         setBookInfo(response.data.items[0].volumeInfo)
       })
       .then(() => {
@@ -103,7 +106,7 @@ export default function BookDetailPage() {
       if (bookshelves[i].bookshelfName === chosenBookshelf) {
         const targetBookshelfId = bookshelves[i]._id
         try {
-          axios.post('/bookshelf/addToBookShelves', { targetBookshelfId, bookInfo })
+          axios.post('/bookshelf/addToBookShelves', { targetBookshelfId, bookInfoForBookitem })
           alert(`Added to ${chosenBookshelf}`)
           setModalOpen(false)
         } catch (e) {

@@ -19,10 +19,10 @@ router.post('/getbookshelves', async (req, res) => {
 })
 
 router.post('/addToBookShelves', async (req, res) => {
-  const { targetBookshelfId, bookInfo } = req.body
+  const { targetBookshelfId, bookInfoForBookitem } = req.body
   const newBookitem = await Bookitem.create({
     bookshelfId: targetBookshelfId,
-    bookitem: bookInfo,
+    bookitem: bookInfoForBookitem,
   })
   res.json(newBookitem)
   // console.log(targetBookshelfId, bookInfo)
