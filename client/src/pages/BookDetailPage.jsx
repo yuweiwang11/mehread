@@ -76,6 +76,20 @@ export default function BookDetailPage() {
     return <Spinner />
   }
 
+  if (user && bookInfoForBookitem) {
+    const bookId = bookInfoForBookitem.id
+    console.log('BOOKID: ' + bookId)
+    axios.get('/bookshelf/checkBookSaved', { userid }).then((response) => {
+      const userBooks = response.data
+      for (let i = 0; i < userBooks.length; i++) {
+        if (userBooks[i].bookitem.id === bookId) {
+          console.log('match found')
+          console.log(userBooks[i]._id)
+        }
+      }
+    })
+  }
+
   if (!moreDescription) {
     descriptionCSS = 'mt-5 line-clamp-6'
     decriptionButton = 'Show More ▼'
@@ -106,7 +120,11 @@ export default function BookDetailPage() {
       if (bookshelves[i].bookshelfName === chosenBookshelf) {
         const targetBookshelfId = bookshelves[i]._id
         try {
-          axios.post('/bookshelf/addToBookShelves', { targetBookshelfId, bookInfoForBookitem })
+          axios.post('/bookshelf/addToBookShelves', {
+            targetBookshelfId,
+            bookInfoForBookitem,
+            userid,
+          })
           alert(`Added to ${chosenBookshelf}`)
           setModalOpen(false)
         } catch (e) {

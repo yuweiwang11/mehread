@@ -19,12 +19,24 @@ router.post('/getbookshelves', async (req, res) => {
 })
 
 router.post('/addToBookShelves', async (req, res) => {
-  const { targetBookshelfId, bookInfoForBookitem } = req.body
+  const { targetBookshelfId, bookInfoForBookitem, userid } = req.body
   const newBookitem = await Bookitem.create({
     bookshelfId: targetBookshelfId,
+    userId: userid,
     bookitem: bookInfoForBookitem,
   })
   res.json(newBookitem)
-  // console.log(targetBookshelfId, bookInfo)
 })
+router.get('/checkBookSaved', async (req, res) => {
+  const { userid } = req.body
+  const getUerBooks = await Bookitem.find({ user: userid })
+  res.json(getUerBooks)
+  // for (let i = 0; i < getUerBooks.length; i++) {
+  //   if (getUerBooks[i].bookitem.id === bookId) {
+  //     console.log('bookid in loop:' + getUerBooks[i].bookitem.id)
+  //     console.log(getUerBooks[i]._id)
+  //   }
+  // }
+})
+
 module.exports = router

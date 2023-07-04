@@ -3,6 +3,7 @@ const { Schema } = mongoose
 
 const BookitemSchema = new Schema({
   bookshelfId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Bookshelf' },
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
   createdAt: {
     type: Date,
     default: Date.now,
