@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
 import SearchBar from '../SearchBar'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 export default function BookShelfPage() {
   const { user } = useContext(UserDataContext)
@@ -34,8 +34,6 @@ export default function BookShelfPage() {
   if (!userBookshelves) {
     return <Spinner />
   }
-
-  console.log(chosenBookshelf)
 
   async function chooseBookshelf(e) {
     e.preventDefault()
@@ -86,9 +84,9 @@ export default function BookShelfPage() {
                 {booksFromSelectedBooshelf &&
                   booksFromSelectedBooshelf.map((books) => (
                     <div key={books._id} className="flex justify-center text-center">
-                      <div className="mb-10">
+                      <Link className="mb-10" to={`/mehread/bookshelf/${books._id}`}>
                         <img
-                          className="w-30 h-48 rounded-lg hover:scale-125"
+                          className="w-30 h-48 rounded-lg hover:scale-110"
                           src={
                             books.bookitem.volumeInfo.imageLinks
                               ? books.bookitem.volumeInfo.imageLinks.thumbnail
@@ -101,7 +99,7 @@ export default function BookShelfPage() {
                             ? `${books.bookitem.volumeInfo.title.substring(0, 15)}...`
                             : books.bookitem.volumeInfo.title}
                         </p>
-                      </div>
+                      </Link>
                     </div>
                   ))}
               </div>
