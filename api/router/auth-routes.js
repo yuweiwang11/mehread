@@ -92,6 +92,7 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
+  res.cookie('auth_token', '')
   // validate user info using Joi
   const validation = loginValidation(req.body)
   if (validation.error) return res.status(400).send(validation.error.details[0].message)

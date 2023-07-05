@@ -10,6 +10,8 @@ export default function BookShelfPage() {
   const { user } = useContext(UserDataContext)
   const [userBookshelves, setUserBookshelves] = useState(null)
   const [booksFromSelectedBooshelf, setBooksFromSelectedBooshelf] = useState(null)
+  const [chosenBookshelf, setChosenBookshelf] = useState(null)
+
   let userid = null
   if (user) {
     userid = user._id
@@ -33,11 +35,24 @@ export default function BookShelfPage() {
     return <Spinner />
   }
 
+  console.log(chosenBookshelf)
+
   async function chooseBookshelf(e) {
     e.preventDefault()
     const targetBookshelfId = e.target.value
     const result = await axios.post('/bookshelf/getBookshelfBooks', { targetBookshelfId })
     setBooksFromSelectedBooshelf(result.data)
+    setChosenBookshelf(targetBookshelfId)
+  }
+
+  function chosenbooshelfButton(bookshelfId) {
+    let defaultCSS = 'bg-white text-zinc-600'
+    // const activated = 'bg-white text-zinc-600 font-bold'
+    if (bookshelfId === chosenBookshelf) {
+      return (defaultCSS += ' font-bold')
+    } else {
+      return defaultCSS
+    }
   }
 
   return (
@@ -48,7 +63,7 @@ export default function BookShelfPage() {
           <aside className="sidebar w-48 -translate-x-full transform bg-white p-4 transition-transform duration-150 ease-in md:translate-x-0 md:shadow-md">
             <div className="my-2 w-full border-b-4 border-gray-300 text-center">
               <span className="font-mono text-xl font-bold tracking-widest">
-                <span className="">MY BOOKSHELF</span>
+                <span className="">BOOKSHELF</span>
               </span>
             </div>
             {userBookshelves &&
@@ -56,7 +71,7 @@ export default function BookShelfPage() {
                 <div className="my-4 border-b-4" key={bookshelf._id}>
                   <button
                     onClick={chooseBookshelf}
-                    className="bg-white text-zinc-600"
+                    className={chosenbooshelfButton(bookshelf._id)}
                     value={bookshelf._id}
                   >
                     {bookshelf.bookshelfName.toUpperCase()}
@@ -64,15 +79,16 @@ export default function BookShelfPage() {
                 </div>
               ))}
           </aside>
-          <main className="main -ml-48 gird flex-grow flex-col p-3 transition-all duration-150 ease-in md:ml-0">
+
+          <main className="main -ml-48 gird flex-grow flex-col p-2 transition-all duration-150 md:ml-0">
             <div className=" h-full bg-white shadow-md ">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-6">
                 {booksFromSelectedBooshelf &&
                   booksFromSelectedBooshelf.map((books) => (
                     <div key={books._id} className="flex justify-center text-center">
-                      <div className="mb-10 ">
+                      <div className="mb-10">
                         <img
-                          className="w-30 h-48 rounded-lg"
+                          className="w-30 h-48 rounded-lg hover:scale-125"
                           src={
                             books.bookitem.volumeInfo.imageLinks
                               ? books.bookitem.volumeInfo.imageLinks.thumbnail
@@ -80,7 +96,7 @@ export default function BookShelfPage() {
                           }
                           alt={books.bookitem.volumeInfo.title}
                         />
-                        <p className="text-sm ">
+                        <p className="text-sm">
                           {books.bookitem.volumeInfo.title.length > 15
                             ? `${books.bookitem.volumeInfo.title.substring(0, 15)}...`
                             : books.bookitem.volumeInfo.title}
