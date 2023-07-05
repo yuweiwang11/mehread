@@ -64,11 +64,30 @@ export default function BookShelfPage() {
                 </div>
               ))}
           </aside>
-          <main className="main -ml-48 flex flex-grow flex-col p-3 transition-all duration-150 ease-in md:ml-0">
-            <div className="flex h-full items-center justify-center bg-white text-center text-5xl font-bold shadow-md">
-              {booksFromSelectedBooshelf &&
-                booksFromSelectedBooshelf.map((books) => books.bookitem.volumeInfo.title)}
+          <main className="main -ml-48 gird flex-grow flex-col p-3 transition-all duration-150 ease-in md:ml-0">
+            {/* <div className="gird h-full bg-gray-300 shadow-md "> */}
+
+            <div className=" ">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-12 py-2">
+                {booksFromSelectedBooshelf &&
+                  booksFromSelectedBooshelf.map((books) => (
+                    <div key={books._id} className="">
+                      <img
+                        className="block w-30 h-48 rounded-lg object-cover object-center border border-zinc-200"
+                        src={
+                          books.bookitem.volumeInfo.imageLinks
+                            ? books.bookitem.volumeInfo.imageLinks.thumbnail
+                            : 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
+                        }
+                        alt={books.bookitem.volumeInfo.title}
+                      />
+                      <p className="text-sm"> {books.bookitem.volumeInfo.title}</p>
+                    </div>
+                  ))}
+              </div>
             </div>
+
+            {/* </div> */}
           </main>
         </div>
       </div>
