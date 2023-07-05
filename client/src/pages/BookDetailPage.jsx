@@ -13,11 +13,13 @@ export default function BookDetailPage() {
   const { user } = useContext(UserDataContext)
   const { bookIdentifier } = useParams()
   const [bookInfo, setBookInfo] = useState({})
+  const [bookInfoForBookitem, setBookInfoForBookitem] = useState(null)
   const [loading, setLoading] = useState(false)
   const [moreDescription, setMoreDescription] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [bookshelves, setBookshelves] = useState(null)
   const [chosenBookshelf, setChosenBookshelf] = useState(null)
+  const [bookAlreadySaved, setBookAlreadySaved] = useState(false)
   let userid = null
   if (user) {
     userid = user._id
@@ -42,8 +44,9 @@ export default function BookDetailPage() {
     axios
       .get(`https://www.googleapis.com/books/v1/volumes/${bookId}`)
       .then((response) => {
+        setBookInfoForBookitem(response.data)
         setBookInfo(response.data.volumeInfo)
-        console.log(response.data.volumeInfo)
+        console.log(response.data)
       })
       .then(() => {
         setLoading(true)
@@ -54,6 +57,7 @@ export default function BookDetailPage() {
     axios
       .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN}`)
       .then((response) => {
+        setBookInfoForBookitem(response.data.items[0])
         setBookInfo(response.data.items[0].volumeInfo)
       })
       .then(() => {
@@ -73,12 +77,25 @@ export default function BookDetailPage() {
     return <Spinner />
   }
 
+  if (user && bookInfoForBookitem) {
+    const bookId = bookInfoForBookitem.id
+    axios.get('/bookshelf/checkBookSaved', { userid }).then((response) => {
+      const userBooks = response.data
+      for (let i = 0; i < userBooks.length; i++) {
+        if (userBooks[i].bookitem.id === bookId) {
+          setBookAlreadySaved(true)
+          console.log(userBooks[i]._id)
+        }
+      }
+    })
+  }
+
   if (!moreDescription) {
     descriptionCSS = 'mt-5 line-clamp-6'
-    decriptionButton = 'Show More ▼'
+    decriptionButton = 'Show More ▽'
   } else if (moreDescription) {
     descriptionCSS = 'mt-5'
-    decriptionButton = 'Show Less ▲'
+    decriptionButton = 'Show Less △'
   }
   if (!bookInfo.description || bookInfo.description.length < 530) {
     descriptionCSS = 'mt-5'
@@ -94,6 +111,26 @@ export default function BookDetailPage() {
       return activated
     } else {
       return inactivated
+    }
+  }
+
+  function submitAddBook(e) {
+    e.preventDefault()
+    for (let i = 0; i < bookshelves.length; i++) {
+      if (bookshelves[i].bookshelfName === chosenBookshelf) {
+        const targetBookshelfId = bookshelves[i]._id
+        try {
+          axios.post('/bookshelf/addToBookShelves', {
+            targetBookshelfId,
+            bookInfoForBookitem,
+            userid,
+          })
+          alert(`Added to ${chosenBookshelf}`)
+          setModalOpen(false)
+        } catch (e) {
+          console.log(e)
+        }
+      }
     }
   }
 
@@ -130,8 +167,16 @@ export default function BookDetailPage() {
           <h1 className="text-2xl font-bold">{bookInfo.title}</h1>
           <h1 className="text-xl">{bookInfo.subtitle}</h1>
 
-          <div className="mt-5 grid grid-cols-3 gap-2 ">
-            <img className="ml-5" src={bookInfo.imageLinks?.thumbnail} alt={bookInfo.title} />
+          <div className="mt-5 grid grid-cols-3 gap-2">
+            <img
+              className="ml-2 w-40"
+              src={
+                bookInfo.imageLinks
+                  ? bookInfo.imageLinks?.thumbnail
+                  : 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
+              }
+              alt={bookInfo.title}
+            />
 
             <div>
               <h3 className="">
@@ -159,34 +204,54 @@ export default function BookDetailPage() {
 
           {user && (
             <div className="mt-3">
-              <button
-                onClick={() => {
-                  setModalOpen(true)
-                }}
-                className="flex mt-5 p-2 my-1 border border-gray-800 bg-white  rounded-xl  hover:bg-black hover:text-white"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6"
+              {bookAlreadySaved ? (
+                <button className="flex mt-5 p-2 my-1  bg-zinc-700 text-white  rounded-xl">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6 "
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                    />
+                  </svg>
+                  &nbsp;Book Already Saved
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setModalOpen(true)
+                  }}
+                  className="flex mt-5 p-2 my-1 border border-gray-800 bg-white  rounded-xl  hover:bg-black hover:text-white"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                  />
-                </svg>
-                &nbsp;Save to bookshelf
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                    />
+                  </svg>
+                  &nbsp;Save to bookshelf
+                </button>
+              )}
+
               <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                {bookshelves.map((bookshelf, index) => (
-                  <div key={index}>
+                {bookshelves.map((bookshelf) => (
+                  <div key={bookshelf._id}>
                     <button
                       onClick={(e) => {
-                        console.log(e.target.value)
                         setChosenBookshelf(e.target.value)
                       }}
                       className={chooseBookshelfButton(bookshelf.bookshelfName)}
@@ -196,14 +261,19 @@ export default function BookDetailPage() {
                     </button>
                   </div>
                 ))}
-                <div className="flex justify-center mt-10 mb-5 items-center ">
-                  <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
-                    {chosenBookshelf && `Save book to ${chosenBookshelf}.`}
-                  </p>
-                  <button className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900">
-                    Comfirm
-                  </button>
-                </div>
+                {chosenBookshelf && (
+                  <div className="flex justify-center mt-10 items-center ">
+                    <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
+                      {`Save book to ${chosenBookshelf}.`}
+                    </p>
+                    <button
+                      onClick={submitAddBook}
+                      className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900"
+                    >
+                      Comfirm
+                    </button>
+                  </div>
+                )}
               </Modal>
             </div>
           )}
