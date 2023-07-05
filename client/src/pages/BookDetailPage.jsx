@@ -261,17 +261,19 @@ export default function BookDetailPage() {
                     </button>
                   </div>
                 ))}
-                <div className="flex justify-center mt-10 mb-5 items-center ">
-                  <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
-                    {chosenBookshelf && `Save book to ${chosenBookshelf}.`}
-                  </p>
-                  <button
-                    onClick={submitAddBook}
-                    className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900"
-                  >
-                    Comfirm
-                  </button>
-                </div>
+                {chosenBookshelf && (
+                  <div className="flex justify-center mt-10 items-center ">
+                    <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
+                      {`Save book to ${chosenBookshelf}.`}
+                    </p>
+                    <button
+                      onClick={submitAddBook}
+                      className="ml-5 inline-block w-20 rounded-full bg-zinc-800 py-2 text-sm font-bold text-white shadow-xl hover:bg-zinc-900"
+                    >
+                      Comfirm
+                    </button>
+                  </div>
+                )}
               </Modal>
             </div>
           )}

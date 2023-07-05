@@ -27,10 +27,17 @@ router.post('/addToBookShelves', async (req, res) => {
   })
   res.json(newBookitem)
 })
+
 router.get('/checkBookSaved', async (req, res) => {
   const { userid } = req.body
   const getUerBooks = await Bookitem.find({ user: userid })
   res.json(getUerBooks)
+})
+
+router.post('/getBookshelfBooks', async (req, res) => {
+  const { targetBookshelfId } = req.body
+  const getBooksFromBookshelf = await Bookitem.find({ bookshelfId: targetBookshelfId })
+  res.json(getBooksFromBookshelf)
 })
 
 module.exports = router

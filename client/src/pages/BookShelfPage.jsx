@@ -9,6 +9,7 @@ import { Navigate } from 'react-router-dom'
 export default function BookShelfPage() {
   const { user } = useContext(UserDataContext)
   const [userBookshelves, setUserBookshelves] = useState(null)
+  const [booksFromSelectedBooshelf, setBooksFromSelectedBooshelf] = useState(null)
   let userid = null
   if (user) {
     userid = user._id
@@ -32,6 +33,13 @@ export default function BookShelfPage() {
     return <Spinner />
   }
 
+  async function chooseBookshelf(e) {
+    e.preventDefault()
+    const targetBookshelfId = e.target.value
+    const result = await axios.post('/bookshelf/getBookshelfBooks', { targetBookshelfId })
+    setBooksFromSelectedBooshelf(result.data)
+  }
+
   return (
     <>
       <div className="max-w-4xl mx-auto">
@@ -44,18 +52,22 @@ export default function BookShelfPage() {
               </span>
             </div>
             {userBookshelves &&
-              userBookshelves.map((bookshelf, index) => (
-                <div className="my-4" key={index}>
-                  {/* {bookshelf._id} */}
-                  {bookshelf.bookshelfName.toUpperCase()}
+              userBookshelves.map((bookshelf) => (
+                <div className="my-4 border-b-4" key={bookshelf._id}>
+                  <button
+                    onClick={chooseBookshelf}
+                    className="bg-white text-zinc-600"
+                    value={bookshelf._id}
+                  >
+                    {bookshelf.bookshelfName.toUpperCase()}
+                  </button>
                 </div>
               ))}
-            {/* <div className="my-4">HELLO</div>
-            <div className="my-4">HELLO</div> */}
           </aside>
           <main className="main -ml-48 flex flex-grow flex-col p-3 transition-all duration-150 ease-in md:ml-0">
             <div className="flex h-full items-center justify-center bg-white text-center text-5xl font-bold shadow-md">
-              Content books
+              {booksFromSelectedBooshelf &&
+                booksFromSelectedBooshelf.map((books) => books.bookitem.volumeInfo.title)}
             </div>
           </main>
         </div>

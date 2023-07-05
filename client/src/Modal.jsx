@@ -22,7 +22,7 @@ export default function Modal({ open, children, onClose }) {
               />
             </svg>
           </button>
-          <div className=" p-8 text-center sm:p-6">
+          <div className=" p-8 text-center sm:p-6 mb-8">
             <p className="mb-5 text-xl font-semibold uppercase tracking-widest text-zinc-800">
               Please choose the bookshelf you want to save this book to:
             </p>
