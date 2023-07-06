@@ -5,8 +5,11 @@ import axios from 'axios'
 import SearchBar from '../SearchBar'
 import Spinner from '../Spinner'
 import Pagination from '../Pagination'
+import { useLocation } from 'react-router-dom'
 
 export default function SearchResultPage() {
+  const { pathname } = useLocation()
+
   const navigate = useNavigate()
   const { searchKeyword } = useParams()
   const [searchResults, setSearchResults] = useState([])
@@ -36,7 +39,12 @@ export default function SearchResultPage() {
     } else {
       searchByName(searchKeyword)
     }
+    setCurrentPage(1)
   }, [searchKeyword])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [currentPage])
 
   if (!loading) {
     return <Spinner />
