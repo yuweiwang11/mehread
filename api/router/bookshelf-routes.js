@@ -40,4 +40,10 @@ router.post('/getBookshelfBooks', async (req, res) => {
   res.json(getBooksFromBookshelf)
 })
 
+router.post('/getUserSingleBook', async (req, res) => {
+  const { userbookid } = req.body
+  console.log(userbookid)
+  const getUserSingleBook = await Bookitem.findOne({ _id: userbookid })
+  res.json(getUserSingleBook)
+})
 module.exports = router
