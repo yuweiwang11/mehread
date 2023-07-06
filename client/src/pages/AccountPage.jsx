@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import Spinner from '../Spinner'
 import { useContext, useEffect } from 'react'
 import { UserDataContext } from '../contexts/UserDataContext'
+import loggedinUserIcon from '../logo/usericon_filled.png'
 
 export default function AccountPage() {
   const navigate = useNavigate()
@@ -24,10 +25,7 @@ export default function AccountPage() {
         <div className="max-w-xs">
           <div className="bg-white shadow-xl rounded-lg p-6 ">
             <div className="photo-wrapper p-2">
-              <img
-                className="w-32 h-32 rounded-full mx-auto"
-                src={user.image ? user.image : '../logo/usericon_filled.png'}
-              />
+              <img className="w-32 h-32 rounded-full mx-auto" src={loggedinUserIcon} />
             </div>
             <div className="p-2">
               <h3 className="text-center text-xl text-gray-900 font-medium leading-8">
@@ -47,7 +45,6 @@ export default function AccountPage() {
                 <button
                   className="border px-4 py-2 "
                   onClick={() => {
-                    // e.preventDefault()
                     navigate('/mehread/bookshelf')
                   }}
                 >
