@@ -9,6 +9,7 @@ import AccountPage from './pages/AccountPage'
 import BookShelfPage from './pages/BookShelfPage'
 import { UserDataContextProvider } from './contexts/UserDataContext'
 import SingleBookPage from './pages/SingleBookPage'
+import Rating from './Rating'
 
 axios.defaults.baseURL = 'http://localhost:4000'
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/mehread/signup" element={<SignupPage />} />
             <Route path="/mehread/bookshelf" element={<BookShelfPage />} />
             <Route path="/mehread/bookshelf/:userbookid" element={<SingleBookPage />} />
+            <Route path="/star" element={<Rating />} />
           </Route>
         </Routes>
       </UserDataContextProvider>
