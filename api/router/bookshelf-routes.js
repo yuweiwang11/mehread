@@ -42,7 +42,6 @@ router.post('/getBookshelfBooks', async (req, res) => {
 
 router.post('/getUserSingleBook', async (req, res) => {
   const { userbookid } = req.body
-  console.log(userbookid)
   const getUserSingleBook = await Bookitem.findOne({ _id: userbookid })
   res.json(getUserSingleBook)
 })

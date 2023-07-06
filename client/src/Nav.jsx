@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { UserDataContext } from './contexts/UserDataContext'
+import navLogo from './logo/MEH_v5.png'
+import loggedinUserIcon from './logo/usericon_filled.png'
+import visitorIcon from './logo/usericon_lined.png'
 
 export default function Nav() {
   const { user } = useContext(UserDataContext)
@@ -22,7 +25,7 @@ export default function Nav() {
         {!isHomePage && (
           <div className="cursor-pointer w-32">
             <Link to={'/'}>
-              <img className="w-32 mb-8 mt-8" src="../logo/MEH_v5.png" alt="logo" />
+              <img className="w-32 mb-8 mt-8" src={navLogo} alt="logo" />
             </Link>
           </div>
         )}
@@ -32,18 +35,14 @@ export default function Nav() {
             <>
               <img
                 className="inline-flex w-6 mr-1 -mt-2 rounded-full"
-                src={user.image ? user.image : '../logo/usericon_filled.png'}
+                src={loggedinUserIcon}
                 alt="user_icon"
               />
               <Link to={'/mehread/account'}>{user.username}</Link>
             </>
           ) : (
             <Link to={'/mehread/signin'}>
-              <img
-                className="inline-flex w-6 mr-1 -mt-2"
-                src="../logo/usericon_lined.png"
-                alt="user_icon"
-              />
+              <img className="inline-flex w-6 mr-1 -mt-2" src={visitorIcon} alt="visitor_icon" />
               Log In
             </Link>
           )}
