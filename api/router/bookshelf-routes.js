@@ -51,4 +51,13 @@ router.post('/getBookshelfName', async (req, res) => {
   const getBookshelf = await Bookshelf.findById(bookshelfid)
   res.json(getBookshelf)
 })
+router.put('/rateBook', async (req, res) => {
+  const { userbookid, rating } = req.body
+  const book = await Bookitem.findById(userbookid)
+  if (book) {
+    book.set({ rating: rating })
+    await book.save()
+  }
+})
+
 module.exports = router
