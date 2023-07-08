@@ -62,8 +62,16 @@ router.put('/rateBook', async (req, res) => {
 
 router.post('/deleteBook', async (req, res) => {
   const { userbookid } = req.body
-  console.log(userbookid)
   const book = await Bookitem.deleteOne({ _id: userbookid })
   res.json(book)
+})
+
+router.put('/moveBook', async (req, res) => {
+  const { bookshelfIdToMove, userbookid } = req.body
+  const book = await Bookitem.findById(userbookid)
+  if (book) {
+    book.set({ bookshelfId: bookshelfIdToMove })
+    await book.save()
+  }
 })
 module.exports = router
