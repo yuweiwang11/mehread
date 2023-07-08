@@ -11,15 +11,13 @@ export default function BookShelfPage() {
   const [userBookshelves, setUserBookshelves] = useState(null)
   const [booksFromSelectedBooshelf, setBooksFromSelectedBooshelf] = useState(null)
   const [chosenBookshelf, setChosenBookshelf] = useState(null)
-
+  const [getAllBooks, setGetAllBooks] = useState(null)
   let userid = null
   if (user) {
     userid = user._id
   }
 
-  if (!user) return <Navigate to={'/mehread/signin'} />
-
-  if (user && !userBookshelves) {
+  useEffect(() => {
     axios
       .post('/bookshelf/getbookshelves', { userid })
       .then((response) => {
@@ -29,7 +27,21 @@ export default function BookShelfPage() {
       .catch((err) => {
         console.log(err)
       })
-  }
+  }, [])
+
+  useEffect(() => {
+    axios
+      .get('/bookshelf/checkBookSaved', { userid })
+      .then((response) => {
+        console.log(response.data)
+        setGetAllBooks(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  if (!user) return <Navigate to={'/mehread/signin'} />
 
   if (!userBookshelves) {
     return <Spinner />
@@ -45,12 +57,34 @@ export default function BookShelfPage() {
 
   function chosenbooshelfButton(bookshelfId) {
     let defaultCSS = 'bg-white text-zinc-600'
-    // const activated = 'bg-white text-zinc-600 font-bold'
     if (bookshelfId === chosenBookshelf) {
       return (defaultCSS += ' font-bold')
     } else {
       return defaultCSS
     }
+  }
+
+  function mapBooks(bookshelfName) {
+    return bookshelfName.map((books) => (
+      <div key={books._id} className="flex justify-center text-center">
+        <Link className="mb-10" to={`/mehread/bookshelf/${books._id}`}>
+          <img
+            className="w-30 h-48 rounded-lg hover:scale-110"
+            src={
+              books.bookitem.volumeInfo.imageLinks
+                ? books.bookitem.volumeInfo.imageLinks.thumbnail
+                : 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
+            }
+            alt={books.bookitem.volumeInfo.title}
+          />
+          <p className="text-sm">
+            {books.bookitem.volumeInfo.title.length > 15
+              ? `${books.bookitem.volumeInfo.title.substring(0, 15)}...`
+              : books.bookitem.volumeInfo.title}
+          </p>
+        </Link>
+      </div>
+    ))
   }
 
   return (
@@ -81,27 +115,8 @@ export default function BookShelfPage() {
           <main className="main -ml-48 gird flex-grow flex-col p-2 transition-all duration-150 md:ml-0">
             <div className=" h-full bg-white shadow-md ">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-6">
-                {booksFromSelectedBooshelf &&
-                  booksFromSelectedBooshelf.map((books) => (
-                    <div key={books._id} className="flex justify-center text-center">
-                      <Link className="mb-10" to={`/mehread/bookshelf/${books._id}`}>
-                        <img
-                          className="w-30 h-48 rounded-lg hover:scale-110"
-                          src={
-                            books.bookitem.volumeInfo.imageLinks
-                              ? books.bookitem.volumeInfo.imageLinks.thumbnail
-                              : 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
-                          }
-                          alt={books.bookitem.volumeInfo.title}
-                        />
-                        <p className="text-sm">
-                          {books.bookitem.volumeInfo.title.length > 15
-                            ? `${books.bookitem.volumeInfo.title.substring(0, 15)}...`
-                            : books.bookitem.volumeInfo.title}
-                        </p>
-                      </Link>
-                    </div>
-                  ))}
+                {getAllBooks && !booksFromSelectedBooshelf && mapBooks(getAllBooks)}
+                {booksFromSelectedBooshelf && mapBooks(booksFromSelectedBooshelf)}
               </div>
             </div>
           </main>

@@ -14,7 +14,6 @@ router.post('/getbookshelves', async (req, res) => {
   if (userData) {
     const bookshelves = await Bookshelf.find({ user: userId })
     res.json(bookshelves)
-    // console.log(bookshelves)
   }
 })
 
