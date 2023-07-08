@@ -21,7 +21,6 @@ export default function BookShelfPage() {
     axios
       .post('/bookshelf/getbookshelves', { userid })
       .then((response) => {
-        console.log(response.data)
         setUserBookshelves(response.data)
       })
       .catch((err) => {
@@ -33,7 +32,6 @@ export default function BookShelfPage() {
     axios
       .get('/bookshelf/checkBookSaved', { userid })
       .then((response) => {
-        console.log(response.data)
         setGetAllBooks(response.data)
       })
       .catch((err) => {

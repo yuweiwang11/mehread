@@ -17,7 +17,7 @@ router.post('/getbookshelves', async (req, res) => {
   }
 })
 
-router.post('/addToBookShelves', async (req, res) => {
+router.put('/addToBookShelves', async (req, res) => {
   const { targetBookshelfId, bookInfoForBookitem, userid } = req.body
   const newBookitem = await Bookitem.create({
     bookshelfId: targetBookshelfId,

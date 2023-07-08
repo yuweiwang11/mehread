@@ -121,7 +121,7 @@ export default function BookDetailPage() {
       if (bookshelves[i].bookshelfName === chosenBookshelf) {
         const targetBookshelfId = bookshelves[i]._id
         try {
-          axios.post('/bookshelf/addToBookShelves', {
+          axios.put('/bookshelf/addToBookShelves', {
             targetBookshelfId,
             bookInfoForBookitem,
             userid,
