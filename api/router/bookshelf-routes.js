@@ -50,6 +50,7 @@ router.post('/getBookshelfName', async (req, res) => {
   const getBookshelf = await Bookshelf.findById(bookshelfid)
   res.json(getBookshelf)
 })
+
 router.put('/rateBook', async (req, res) => {
   const { userbookid, rating } = req.body
   const book = await Bookitem.findById(userbookid)
@@ -59,4 +60,10 @@ router.put('/rateBook', async (req, res) => {
   }
 })
 
+router.post('/deleteBook', async (req, res) => {
+  const { userbookid } = req.body
+  console.log(userbookid)
+  const book = await Bookitem.deleteOne({ _id: userbookid })
+  res.json(book)
+})
 module.exports = router

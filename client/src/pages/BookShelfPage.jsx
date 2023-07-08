@@ -37,7 +37,7 @@ export default function BookShelfPage() {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [userid])
 
   if (!user) return <Navigate to={'/mehread/signin'} />
 

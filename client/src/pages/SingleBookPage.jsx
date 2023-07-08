@@ -79,7 +79,7 @@ export default function SingleBookPage() {
                   </svg>
                   &nbsp;{bookshelfName && bookshelfName.toUpperCase()}
                 </button>
-                {menuOpen && <DropdownMenu />}
+                {menuOpen && <DropdownMenu userBookData={userBookData} />}
 
                 <div></div>
                 <div>{userSingleBookInfo.title}</div>
