@@ -5,12 +5,14 @@ import GoBackButton from '../GoBackButton'
 import Nav from '../Nav'
 import SearchBar from '../SearchBar'
 import Rating from '../Rating'
+import DropdownMenu from '../DropdownMenu'
 
 export default function SingleBookPage() {
   const { userbookid } = useParams()
   const [userBookData, setUserBookData] = useState(null)
   const [userSingleBookInfo, setUserSingleBookInfo] = useState(null)
   const [bookshelfName, setBookshelfName] = useState(null)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     axios.post('/bookshelf/getUserSingleBook', { userbookid }).then((response) => {
@@ -19,6 +21,7 @@ export default function SingleBookPage() {
       setUserSingleBookInfo(response.data.bookitem.volumeInfo)
     })
   }, [userbookid])
+
   if (userBookData && !bookshelfName) {
     const bookshelfid = userBookData.bookshelfId
     axios.post('/bookshelf/getBookshelfName', { bookshelfid }).then((response) => {
@@ -40,6 +43,7 @@ export default function SingleBookPage() {
               {/* --------------------img div--------------------------------- */}
               <div>
                 <img
+                  className="w-40"
                   src={
                     userSingleBookInfo.imageLinks
                       ? userSingleBookInfo.imageLinks.thumbnail
@@ -52,14 +56,20 @@ export default function SingleBookPage() {
               {/* --------------------img div--------------------------------- */}
               {/* --------------------info div--------------------------------- */}
               <div>
-                <span className="flex justify-center bg-gray-100 text-gray-800 text-md font-medium mr-28 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                <button
+                  onClick={() => {
+                    setMenuOpen((prev) => !prev)
+                  }}
+                  data-dropdown-toggle="dropdown"
+                  className="flex justify-center bg-gray-100 text-gray-800 text-md font-medium mr-28 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-6 h-6"
+                    className="w-6 h-6 "
                   >
                     <path
                       strokeLinecap="round"
@@ -68,7 +78,9 @@ export default function SingleBookPage() {
                     />
                   </svg>
                   &nbsp;{bookshelfName && bookshelfName.toUpperCase()}
-                </span>
+                </button>
+                {menuOpen && <DropdownMenu userBookData={userBookData} />}
+
                 <div></div>
                 <div>{userSingleBookInfo.title}</div>
                 <div>{userSingleBookInfo.subtitle}</div>

@@ -14,11 +14,10 @@ router.post('/getbookshelves', async (req, res) => {
   if (userData) {
     const bookshelves = await Bookshelf.find({ user: userId })
     res.json(bookshelves)
-    // console.log(bookshelves)
   }
 })
 
-router.post('/addToBookShelves', async (req, res) => {
+router.put('/addToBookShelves', async (req, res) => {
   const { targetBookshelfId, bookInfoForBookitem, userid } = req.body
   const newBookitem = await Bookitem.create({
     bookshelfId: targetBookshelfId,
@@ -51,6 +50,7 @@ router.post('/getBookshelfName', async (req, res) => {
   const getBookshelf = await Bookshelf.findById(bookshelfid)
   res.json(getBookshelf)
 })
+
 router.put('/rateBook', async (req, res) => {
   const { userbookid, rating } = req.body
   const book = await Bookitem.findById(userbookid)
@@ -60,4 +60,18 @@ router.put('/rateBook', async (req, res) => {
   }
 })
 
+router.post('/deleteBook', async (req, res) => {
+  const { userbookid } = req.body
+  const book = await Bookitem.deleteOne({ _id: userbookid })
+  res.json(book)
+})
+
+router.put('/moveBook', async (req, res) => {
+  const { bookshelfIdToMove, userbookid } = req.body
+  const book = await Bookitem.findById(userbookid)
+  if (book) {
+    book.set({ bookshelfId: bookshelfIdToMove })
+    await book.save()
+  }
+})
 module.exports = router
