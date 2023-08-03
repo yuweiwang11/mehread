@@ -41,16 +41,19 @@ export default function AccountPage() {
                 </tbody>
               </table>
 
-              <div className="text-center my-3 flex justify-center">
+              <div className="text-center my-3 flex flex-col items-center">
                 <button
-                  className="border px-4 py-2 "
+                  className="border px-4 py-2 p-2 my-1 border-gray-800 bg-white  rounded-xl  hover:bg-black hover:text-white"
                   onClick={() => {
                     navigate('/mehread/bookshelf')
                   }}
                 >
                   Bookshelf
                 </button>
-                <button onClick={logout} className="border px-4 py-2">
+                <button
+                  onClick={logout}
+                  className="border px-6 mt-5 p-2 border-gray-800 bg-white  rounded-xl  hover:bg-red-700 hover:text-white"
+                >
                   Logout
                 </button>
               </div>

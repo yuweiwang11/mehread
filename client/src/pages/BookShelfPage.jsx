@@ -22,7 +22,6 @@ export default function BookShelfPage() {
       .post('/bookshelf/getbookshelves', { userid })
       .then((response) => {
         setUserBookshelves(response.data)
-        console.log(response.data)
       })
       .catch((err) => {
         console.log(err)
@@ -114,7 +113,10 @@ export default function BookShelfPage() {
           <main className="main -ml-48 gird flex-grow flex-col p-2 transition-all duration-150 md:ml-0">
             <div className=" h-full bg-white shadow-md ">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-6">
-                {getAllBooks.length === 0 ? 'No book added' : null}
+                {getAllBooks && getAllBooks.length === 0 ? 'No book added' : null}
+                {booksFromSelectedBooshelf && booksFromSelectedBooshelf.length === 0
+                  ? 'No book added'
+                  : null}
                 {getAllBooks && !booksFromSelectedBooshelf && mapBooks(getAllBooks)}
                 {booksFromSelectedBooshelf && mapBooks(booksFromSelectedBooshelf)}
               </div>
