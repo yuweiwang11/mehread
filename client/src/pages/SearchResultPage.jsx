@@ -5,6 +5,7 @@ import axios from 'axios'
 import SearchBar from '../SearchBar'
 import Spinner from '../Spinner'
 import Pagination from '../Pagination'
+import Footer from '../Footer'
 import { useLocation } from 'react-router-dom'
 
 export default function SearchResultPage() {
@@ -107,13 +108,16 @@ export default function SearchResultPage() {
               </div>
             ))}
         </div>
-        <Pagination
-          postsPerPage={postsPerPage}
-          totalPosts={searchResults.length}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
+        <div className="mb-16">
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={searchResults.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        </div>
       </div>
+      <Footer />
     </>
   )
 }

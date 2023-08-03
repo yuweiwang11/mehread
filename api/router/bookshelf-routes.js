@@ -27,9 +27,9 @@ router.put('/addToBookShelves', async (req, res) => {
   res.json(newBookitem)
 })
 
-router.get('/checkBookSaved', async (req, res) => {
+router.post('/checkBookSaved', async (req, res) => {
   const { userid } = req.body
-  const getUerBooks = await Bookitem.find({ user: userid })
+  const getUerBooks = await Bookitem.find({ userId: userid })
   res.json(getUerBooks)
 })
 
@@ -73,5 +73,13 @@ router.put('/moveBook', async (req, res) => {
     book.set({ bookshelfId: bookshelfIdToMove })
     await book.save()
   }
+})
+
+router.post('/addComment', async (req, res) => {
+  const { addBookComment, bookid } = req.body
+  const book = await Bookitem.findById(bookid)
+  book.set({ comment: addBookComment })
+  await book.save()
+  res.json(book)
 })
 module.exports = router

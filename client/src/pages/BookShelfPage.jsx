@@ -3,6 +3,8 @@ import { UserDataContext } from '../contexts/UserDataContext'
 import { useContext, useEffect, useState } from 'react'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
+import Footer from '../Footer'
+
 import SearchBar from '../SearchBar'
 import { Link, Navigate } from 'react-router-dom'
 
@@ -30,7 +32,7 @@ export default function BookShelfPage() {
 
   useEffect(() => {
     axios
-      .get('/bookshelf/checkBookSaved', { userid })
+      .post('/bookshelf/checkBookSaved', { userid })
       .then((response) => {
         setGetAllBooks(response.data)
       })
@@ -113,12 +115,19 @@ export default function BookShelfPage() {
           <main className="main -ml-48 gird flex-grow flex-col p-2 transition-all duration-150 md:ml-0">
             <div className=" h-full bg-white shadow-md ">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-6">
+                {getAllBooks && getAllBooks.length === 0 ? 'No book added' : null}
+                {booksFromSelectedBooshelf && booksFromSelectedBooshelf.length === 0
+                  ? 'No book added'
+                  : null}
                 {getAllBooks && !booksFromSelectedBooshelf && mapBooks(getAllBooks)}
                 {booksFromSelectedBooshelf && mapBooks(booksFromSelectedBooshelf)}
               </div>
             </div>
           </main>
         </div>
+      </div>
+      <div className="mt-28">
+        <Footer />
       </div>
     </>
   )
