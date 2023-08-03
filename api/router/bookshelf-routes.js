@@ -29,7 +29,7 @@ router.put('/addToBookShelves', async (req, res) => {
 
 router.get('/checkBookSaved', async (req, res) => {
   const { userid } = req.body
-  const getUerBooks = await Bookitem.find({ user: userid })
+  const getUerBooks = await Bookitem.find({ userId: userid })
   res.json(getUerBooks)
 })
 
