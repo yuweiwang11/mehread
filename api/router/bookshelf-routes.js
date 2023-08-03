@@ -27,7 +27,7 @@ router.put('/addToBookShelves', async (req, res) => {
   res.json(newBookitem)
 })
 
-router.get('/checkBookSaved', async (req, res) => {
+router.post('/checkBookSaved', async (req, res) => {
   const { userid } = req.body
   const getUerBooks = await Bookitem.find({ userId: userid })
   res.json(getUerBooks)
