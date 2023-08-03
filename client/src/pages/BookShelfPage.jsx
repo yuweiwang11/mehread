@@ -3,6 +3,8 @@ import { UserDataContext } from '../contexts/UserDataContext'
 import { useContext, useEffect, useState } from 'react'
 import Nav from '../Nav'
 import Spinner from '../Spinner'
+import Footer from '../Footer'
+
 import SearchBar from '../SearchBar'
 import { Link, Navigate } from 'react-router-dom'
 
@@ -123,6 +125,9 @@ export default function BookShelfPage() {
             </div>
           </main>
         </div>
+      </div>
+      <div className="mt-28">
+        <Footer />
       </div>
     </>
   )

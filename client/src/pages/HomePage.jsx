@@ -14,7 +14,7 @@ export default function HomePage() {
     <>
       <div className="max-w-4xl mx-auto">
         <Nav />
-        <div className="p-6 flex flex-col justify-center items-center mt-36">
+        <div className="p-6 flex flex-col justify-center items-center mt-28">
           <img className="w-96 mb-8" src={homeLogo} alt="logo" />
           <SearchBar />
         </div>

@@ -6,6 +6,7 @@ import Nav from '../Nav'
 import SearchBar from '../SearchBar'
 import Rating from '../Rating'
 import DropdownMenu from '../DropdownMenu'
+import Footer from '../Footer'
 
 export default function SingleBookPage() {
   const { userbookid } = useParams()
@@ -94,6 +95,9 @@ export default function SingleBookPage() {
             </div>
           </div>
         )}
+      </div>
+      <div className="fixed inset-x-0 bottom-0">
+        <Footer />
       </div>
     </>
   )
