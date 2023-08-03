@@ -74,4 +74,12 @@ router.put('/moveBook', async (req, res) => {
     await book.save()
   }
 })
+
+router.post('/addComment', async (req, res) => {
+  const { addBookComment, bookid } = req.body
+  const book = await Bookitem.findById(bookid)
+  book.set({ comment: addBookComment })
+  await book.save()
+  res.json(book)
+})
 module.exports = router

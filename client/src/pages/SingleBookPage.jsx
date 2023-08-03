@@ -14,6 +14,8 @@ export default function SingleBookPage() {
   const [userSingleBookInfo, setUserSingleBookInfo] = useState(null)
   const [bookshelfName, setBookshelfName] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [addBookComment, setAddBookcomment] = useState(null)
+  const [bookComment, setBookComment] = useState(null)
 
   useEffect(() => {
     axios.post('/bookshelf/getUserSingleBook', { userbookid }).then((response) => {
@@ -30,6 +32,15 @@ export default function SingleBookPage() {
     })
   }
 
+  function addComment(e) {
+    e.preventDefault()
+    const bookid = userBookData._id
+    axios.post('/bookshelf/addComment', { addBookComment, bookid }).then((response) => {
+      // setBookComment(response.data)
+      console.log(response.data)
+    })
+  }
+
   return (
     <>
       <div className="max-w-4xl mx-auto">
@@ -43,26 +54,12 @@ export default function SingleBookPage() {
             <div className="mt-5 grid grid-cols-3 gap-2">
               {/* --------------------img div--------------------------------- */}
               <div>
-                <img
-                  className="w-40"
-                  src={
-                    userSingleBookInfo.imageLinks
-                      ? userSingleBookInfo.imageLinks.thumbnail
-                      : 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
-                  }
-                  alt={userSingleBookInfo.title}
-                />
-                <Rating userBookRating={userBookData.rating} userbookid={userbookid} />
-              </div>
-              {/* --------------------img div--------------------------------- */}
-              {/* --------------------info div--------------------------------- */}
-              <div>
                 <button
                   onClick={() => {
                     setMenuOpen((prev) => !prev)
                   }}
                   data-dropdown-toggle="dropdown"
-                  className="flex justify-center bg-gray-100 text-gray-800 text-md font-medium mr-28 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
+                  className="flex justify-center bg-gray-200 mt-5 text-gray-800 text-md font-medium mr-28 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -81,16 +78,49 @@ export default function SingleBookPage() {
                   &nbsp;{bookshelfName && bookshelfName.toUpperCase()}
                 </button>
                 {menuOpen && <DropdownMenu userBookData={userBookData} />}
+                <img
+                  className="w-40 mt-5"
+                  src={
+                    userSingleBookInfo.imageLinks
+                      ? userSingleBookInfo.imageLinks.thumbnail
+                      : 'https://media.istockphoto.com/id/867259496/vector/closed-book-with-blank-cover-icon-image.jpg?s=170667a&w=0&k=20&c=Jj7-vBv9rbCn7_3_ootaVDoU8orpoNwj5X1VQZlOpts='
+                  }
+                  alt={userSingleBookInfo.title}
+                />
 
-                <div></div>
-                <div>{userSingleBookInfo.title}</div>
-                <div>{userSingleBookInfo.subtitle}</div>
+                <Rating userBookRating={userBookData.rating} userbookid={userbookid} />
+              </div>
+              {/* --------------------img div--------------------------------- */}
+              {/* --------------------info div--------------------------------- */}
+              <div className="mt-3">
+                <div className="text-2xl font-bold">{userSingleBookInfo.title}</div>
+                <div className="text-xl">{userSingleBookInfo.subtitle}</div>
                 {userSingleBookInfo.authors?.map((author, index) => (
-                  <div className="inline " key={index}>
+                  <div className="inline mt-1" key={index}>
                     {userSingleBookInfo.authors.length > 1 ? ` ${author} |` : `${author}`}
                   </div>
                 ))}
+
+                <div className="mt-8">
+                  <form onSubmit={addComment}>
+                    <label className="text-xl font-bold">Your thoughts on this book:</label>
+                    <textarea
+                      name="comment"
+                      onChange={(e) => {
+                        setAddBookcomment(e.target.value)
+                      }}
+                      cols="30"
+                      rows="10"
+                    ></textarea>
+                    <button>submit</button>
+                  </form>
+                </div>
               </div>
+              <div className="mt-3 ml-2 ">
+                <div className="flex justify-center text-xl font-bold">Comment</div>
+                {bookComment}
+              </div>
+
               {/* --------------------info div--------------------------------- */}
             </div>
           </div>
