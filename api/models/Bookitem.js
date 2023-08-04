@@ -9,7 +9,7 @@ const BookitemSchema = new Schema({
     default: Date.now,
   },
   bookitem: { type: Object, required: true },
-  comment: { type: String },
+  comment: { type: Array },
   rating: {
     type: Number,
     min: 1,

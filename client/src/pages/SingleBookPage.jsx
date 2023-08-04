@@ -15,7 +15,7 @@ export default function SingleBookPage() {
   const [bookshelfName, setBookshelfName] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [addBookComment, setAddBookcomment] = useState(null)
-  const [bookComment, setBookComment] = useState(null)
+  const [bookCommentUpdate, setBookCommentUpdate] = useState(false)
 
   useEffect(() => {
     axios.post('/bookshelf/getUserSingleBook', { userbookid }).then((response) => {
@@ -23,7 +23,8 @@ export default function SingleBookPage() {
       setUserBookData(response.data)
       setUserSingleBookInfo(response.data.bookitem.volumeInfo)
     })
-  }, [userbookid])
+    setBookCommentUpdate(false)
+  }, [bookCommentUpdate])
 
   if (userBookData && !bookshelfName) {
     const bookshelfid = userBookData.bookshelfId
@@ -36,8 +37,8 @@ export default function SingleBookPage() {
     e.preventDefault()
     const bookid = userBookData._id
     axios.post('/bookshelf/addComment', { addBookComment, bookid }).then((response) => {
-      // setBookComment(response.data)
-      console.log(response.data)
+      setUserBookData(response.data)
+      setBookCommentUpdate(true)
     })
   }
 
@@ -118,7 +119,9 @@ export default function SingleBookPage() {
               </div>
               <div className="mt-3 ml-2 ">
                 <div className="flex justify-center text-xl font-bold">Comment</div>
-                {bookComment}
+                {userBookData.comment.map((com, index) => (
+                  <div key={index}>{com}</div>
+                ))}
               </div>
 
               {/* --------------------info div--------------------------------- */}

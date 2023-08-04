@@ -77,9 +77,12 @@ router.put('/moveBook', async (req, res) => {
 
 router.post('/addComment', async (req, res) => {
   const { addBookComment, bookid } = req.body
-  const book = await Bookitem.findById(bookid)
-  book.set({ comment: addBookComment })
-  await book.save()
-  res.json(book)
+  Bookitem.findOneAndUpdate({ _id: bookid }, { $push: { comment: addBookComment } })
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 module.exports = router
