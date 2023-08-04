@@ -42,6 +42,10 @@ export default function SingleBookPage() {
     })
   }
 
+  function deleteComment(e) {
+    console.log(e.target.value)
+  }
+
   return (
     <>
       <div className="max-w-4xl mx-auto">
@@ -123,7 +127,11 @@ export default function SingleBookPage() {
                   {userBookData.comment.map((com, index) => (
                     <div className=" group ml-2" key={index}>
                       {com}
-                      <button className="ml-2 invisible group-hover:visible bg-pink-50 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-700 dark:text-pink-50">
+                      <button
+                        onClick={deleteComment}
+                        value={index}
+                        className="ml-2 invisible group-hover:visible bg-pink-50 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-700 dark:text-pink-50"
+                      >
                         Delete
                       </button>
                     </div>
