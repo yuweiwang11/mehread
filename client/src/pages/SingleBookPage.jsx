@@ -119,9 +119,16 @@ export default function SingleBookPage() {
               </div>
               <div className="mt-3 ml-2 ">
                 <div className="flex justify-center text-xl font-bold">Comment</div>
-                {userBookData.comment.map((com, index) => (
-                  <div key={index}>{com}</div>
-                ))}
+                <div className="border border-zinc-400 rounded-md ">
+                  {userBookData.comment.map((com, index) => (
+                    <div className=" group ml-2" key={index}>
+                      {com}
+                      <button className="ml-2 invisible group-hover:visible bg-pink-50 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-700 dark:text-pink-50">
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* --------------------info div--------------------------------- */}
