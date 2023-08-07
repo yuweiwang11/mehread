@@ -15,7 +15,7 @@ export default function SingleBookPage() {
   const [bookshelfName, setBookshelfName] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [addBookComment, setAddBookcomment] = useState(null)
-  const [bookComment, setBookComment] = useState(null)
+  const [bookCommentUpdate, setBookCommentUpdate] = useState(false)
 
   useEffect(() => {
     axios.post('/bookshelf/getUserSingleBook', { userbookid }).then((response) => {
@@ -23,7 +23,8 @@ export default function SingleBookPage() {
       setUserBookData(response.data)
       setUserSingleBookInfo(response.data.bookitem.volumeInfo)
     })
-  }, [userbookid])
+    setBookCommentUpdate(false)
+  }, [bookCommentUpdate])
 
   if (userBookData && !bookshelfName) {
     const bookshelfid = userBookData.bookshelfId
@@ -36,9 +37,13 @@ export default function SingleBookPage() {
     e.preventDefault()
     const bookid = userBookData._id
     axios.post('/bookshelf/addComment', { addBookComment, bookid }).then((response) => {
-      // setBookComment(response.data)
-      console.log(response.data)
+      setUserBookData(response.data)
+      setBookCommentUpdate(true)
     })
+  }
+
+  function deleteComment(e) {
+    console.log(e.target.value)
   }
 
   return (
@@ -118,7 +123,20 @@ export default function SingleBookPage() {
               </div>
               <div className="mt-3 ml-2 ">
                 <div className="flex justify-center text-xl font-bold">Comment</div>
-                {bookComment}
+                <div className="border border-zinc-400 rounded-md ">
+                  {userBookData.comment.map((com, index) => (
+                    <div className=" group ml-2" key={index}>
+                      {com}
+                      <button
+                        onClick={deleteComment}
+                        value={index}
+                        className="ml-2 invisible group-hover:visible bg-pink-50 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-700 dark:text-pink-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* --------------------info div--------------------------------- */}
