@@ -39,17 +39,18 @@ export default function SingleBookPage() {
     axios.post('/bookshelf/addComment', { addBookComment, bookid }).then((response) => {
       setUserBookData(response.data)
       setBookCommentUpdate(true)
-      setAddBookcomment(null)
     })
   }
 
   function deleteComment(e) {
     const commentToDelete = e.target.value
     const bookid = userBookData._id
-    axios.post('/bookshelf/deleteComment', { commentToDelete, bookid }).then((response) => {
-      setUserBookData(response.data)
-      setBookCommentUpdate(true)
-    })
+    if (confirm('Are you sure you want to delete this comment?')) {
+      axios.post('/bookshelf/deleteComment', { commentToDelete, bookid }).then((response) => {
+        setUserBookData(response.data)
+        setBookCommentUpdate(true)
+      })
+    }
   }
 
   return (
@@ -116,6 +117,7 @@ export default function SingleBookPage() {
                   <form onSubmit={addComment}>
                     <label className="text-xl font-bold">Your thoughts on this book:</label>
                     <textarea
+                      required
                       name="comment"
                       onChange={(e) => {
                         setAddBookcomment(e.target.value)
