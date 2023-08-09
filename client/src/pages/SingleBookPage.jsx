@@ -9,6 +9,7 @@ import DropdownMenu from '../DropdownMenu'
 import Footer from '../Footer'
 
 export default function SingleBookPage() {
+  const navigate = useNavigate()
   const { userbookid } = useParams()
   const [userBookData, setUserBookData] = useState(null)
   const [userSingleBookInfo, setUserSingleBookInfo] = useState(null)
@@ -33,17 +34,26 @@ export default function SingleBookPage() {
     })
   }
 
-  function addComment(e) {
-    e.preventDefault()
+  function addComment() {
     const bookid = userBookData._id
+    if (addBookComment.replace(/\s+/g, '') == '') return alert('Please enter you comment.')
     axios.post('/bookshelf/addComment', { addBookComment, bookid }).then((response) => {
       setUserBookData(response.data)
       setBookCommentUpdate(true)
+      setAddBookcomment(null)
     })
+    alert('comment added')
   }
 
   function deleteComment(e) {
-    console.log(e.target.value)
+    const commentToDelete = e.target.value
+    const bookid = userBookData._id
+    if (confirm('Are you sure you want to delete this comment?')) {
+      axios.post('/bookshelf/deleteComment', { commentToDelete, bookid }).then((response) => {
+        setUserBookData(response.data)
+        setBookCommentUpdate(true)
+      })
+    }
   }
 
   return (
@@ -53,7 +63,28 @@ export default function SingleBookPage() {
         <div className="flex items-center justify-center">
           <SearchBar />
         </div>
-        <GoBackButton />
+        <div>
+          <button
+            className="flex mt-5 p-2 my-1 border border-zinc-700 rounded-full bg-white text-black hover:bg-zinc-700 hover:text-white"
+            onClick={() => navigate('/mehread/bookshelf')}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            &nbsp;Go back
+          </button>
+        </div>
         {userSingleBookInfo && (
           <div className="mt-5">
             <div className="mt-5 grid grid-cols-3 gap-2">
@@ -110,7 +141,7 @@ export default function SingleBookPage() {
                   <form onSubmit={addComment}>
                     <label className="text-xl font-bold">Your thoughts on this book:</label>
                     <textarea
-                      name="comment"
+                      required
                       onChange={(e) => {
                         setAddBookcomment(e.target.value)
                       }}
@@ -129,7 +160,7 @@ export default function SingleBookPage() {
                       {com}
                       <button
                         onClick={deleteComment}
-                        value={index}
+                        value={com}
                         className="ml-2 invisible group-hover:visible bg-pink-50 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-700 dark:text-pink-50"
                       >
                         Delete
