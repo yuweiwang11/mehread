@@ -34,12 +34,14 @@ export default function SingleBookPage() {
   }
 
   function addComment(e) {
-    e.preventDefault()
     const bookid = userBookData._id
+    if (addBookComment.replace(/\s+/g, '') == '') return alert('Please enter you comment.')
     axios.post('/bookshelf/addComment', { addBookComment, bookid }).then((response) => {
       setUserBookData(response.data)
       setBookCommentUpdate(true)
+      alert('comment added')
     })
+    setAddBookcomment(null)
   }
 
   function deleteComment(e) {
