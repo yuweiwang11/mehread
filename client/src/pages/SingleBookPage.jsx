@@ -148,7 +148,9 @@ export default function SingleBookPage() {
                       cols="30"
                       rows="10"
                     ></textarea>
-                    <button>submit</button>
+                    <button className="flex ml-48 p-1.5 my-1 border border-zinc-700 rounded-xl bg-zinc-700 text-white hover:bg-zinc-800 hover:text-white">
+                      submit
+                    </button>
                   </form>
                 </div>
               </div>
