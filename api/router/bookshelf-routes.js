@@ -88,10 +88,12 @@ router.post('/addComment', async (req, res) => {
 
 router.post('/deleteComment', async (req, res) => {
   const { commentToDelete, bookid } = req.body
-  const book = await Bookitem.findOneAndUpdate(
-    { _id: bookid },
-    { $pull: { comment: commentToDelete } }
-  )
-  res.json(book)
+  Bookitem.findOneAndUpdate({ _id: bookid }, { $pull: { comment: commentToDelete } })
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 module.exports = router
