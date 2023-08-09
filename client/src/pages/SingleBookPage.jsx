@@ -39,15 +39,17 @@ export default function SingleBookPage() {
     axios.post('/bookshelf/addComment', { addBookComment, bookid }).then((response) => {
       setUserBookData(response.data)
       setBookCommentUpdate(true)
+      setAddBookcomment(null)
     })
   }
 
   function deleteComment(e) {
     const commentToDelete = e.target.value
     const bookid = userBookData._id
-
-    console.log(commentToDelete)
-    axios.post('/bookshelf/deleteComment', { commentToDelete, bookid })
+    axios.post('/bookshelf/deleteComment', { commentToDelete, bookid }).then((response) => {
+      setUserBookData(response.data)
+      setBookCommentUpdate(true)
+    })
   }
 
   return (
