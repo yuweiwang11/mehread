@@ -43,7 +43,11 @@ export default function SingleBookPage() {
   }
 
   function deleteComment(e) {
-    console.log(e.target.value)
+    const commentToDelete = e.target.value
+    const bookid = userBookData._id
+
+    console.log(commentToDelete)
+    axios.post('/bookshelf/deleteComment', { commentToDelete, bookid })
   }
 
   return (
@@ -129,7 +133,7 @@ export default function SingleBookPage() {
                       {com}
                       <button
                         onClick={deleteComment}
-                        value={index}
+                        value={com}
                         className="ml-2 invisible group-hover:visible bg-pink-50 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-700 dark:text-pink-50"
                       >
                         Delete

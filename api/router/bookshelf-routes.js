@@ -85,4 +85,16 @@ router.post('/addComment', async (req, res) => {
       console.log(error)
     })
 })
+
+router.post('/deleteComment', async (req, res) => {
+  const { commentToDelete, bookid } = req.body
+  console.log(commentToDelete, bookid)
+  Bookitem.findOneAndUpdate({ _id: bookid }, { $pull: { comment: commentToDelete } })
+    .then((result) => {
+      res.json(result)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
 module.exports = router
