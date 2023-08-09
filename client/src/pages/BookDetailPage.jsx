@@ -58,7 +58,7 @@ export default function BookDetailPage() {
 
   function getBookByISBN(ISBN) {
     axios
-      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN}`)
+      .post(`https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN}`)
       .then((response) => {
         setBookInfoForBookitem(response.data.items[0])
         setBookInfo(response.data.items[0].volumeInfo)
@@ -233,19 +233,20 @@ export default function BookDetailPage() {
                 )}
 
                 <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                  {bookshelves.map((bookshelf) => (
-                    <div key={bookshelf._id}>
-                      <button
-                        onClick={(e) => {
-                          setChosenBookshelf(e.target.value)
-                        }}
-                        className={chooseBookshelfButton(bookshelf.bookshelfName)}
-                        value={bookshelf.bookshelfName}
-                      >
-                        {bookshelf.bookshelfName.toUpperCase()}
-                      </button>
-                    </div>
-                  ))}
+                  {bookshelves &&
+                    bookshelves.map((bookshelf) => (
+                      <div key={bookshelf._id}>
+                        <button
+                          onClick={(e) => {
+                            setChosenBookshelf(e.target.value)
+                          }}
+                          className={chooseBookshelfButton(bookshelf.bookshelfName)}
+                          value={bookshelf.bookshelfName}
+                        >
+                          {bookshelf.bookshelfName.toUpperCase()}
+                        </button>
+                      </div>
+                    ))}
                   {chosenBookshelf && (
                     <div className="flex justify-center mt-10 items-center ">
                       <p className="text-xl font-semibold uppercase tracking-widest text-zinc-800">
