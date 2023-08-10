@@ -58,7 +58,7 @@ export default function BookDetailPage() {
 
   function getBookByISBN(ISBN) {
     axios
-      .post(`https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN}`)
+      .get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN}`)
       .then((response) => {
         setBookInfoForBookitem(response.data.items[0])
         setBookInfo(response.data.items[0].volumeInfo)
@@ -139,8 +139,8 @@ export default function BookDetailPage() {
 
   return (
     <>
-      <div>
-        <div className="max-w-4xl mx-auto">
+      <div className="mb-32">
+        <div className="max-w-4xl mx-auto ">
           <Nav />
           <div className="flex items-center justify-center">
             <SearchBar />
